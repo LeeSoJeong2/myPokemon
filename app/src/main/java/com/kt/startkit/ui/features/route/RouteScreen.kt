@@ -1,4 +1,4 @@
-package com.kt.startkit.ui.features.start
+package com.kt.startkit.ui.features.route
 
 import android.app.Activity
 import androidx.compose.foundation.layout.Box
@@ -18,10 +18,9 @@ import com.kt.startkit.ui.features.main.LocalNavigationProvider
 import com.kt.startkit.ui.navigator.AppNavigationRoute
 import com.kt.startkit.ui.navigator.navigate
 
-
 @NonRestartableComposable
 @Composable
-fun StartScreen(screenViewModel: StartViewModel = hiltViewModel()) {
+fun RouteScreen(screenViewModel: RouteViewModel = hiltViewModel()) {
     val activity = (LocalContext.current as? Activity)
     val navController = LocalNavigationProvider.current
 
@@ -29,46 +28,37 @@ fun StartScreen(screenViewModel: StartViewModel = hiltViewModel()) {
         screenViewModel.fetchInitialData()
     })
 
-    StateViewModelListener(stateViewModel = screenViewModel, listen = { state ->
-        when(state) {
-            is StartState.FailToInitialize -> {
+    StateViewModelListener(stateViewModel = screenViewModel, listen = {
+        when(it) {
+            is RouteState.FailToInitialize -> {
                 // 앱 실행 실패 팝업
                 Logger.e("Fail to start App!!")
                 activity?.finish()
             }
-            is StartState.ShouldAppUpdate -> {
-                // 강제 업데이트 팝업
-                activity?.finish()
-            }
-            is StartState.NavigateToRouteScreen -> {
-                Logger.d("navigate to route screen")
-                /// route
-                navController.navigate(route = AppNavigationRoute.ROUTE) {
+            is RouteState.NavigateToMain -> {
+                /// root
+                navController.navigate(route = AppNavigationRoute.ROOT) {
                     navController.popBackStack()
-                    it.graph.setStartDestination(AppNavigationRoute.ROUTE.routeName)
+                    it.graph.setStartDestination(AppNavigationRoute.ROOT.routeName)
                 }
             }
-            is StartState.NeedToLogin -> {
-                // TODO: show login activity
-                activity?.finish()
+            is RouteState.NavigateToOnBoarding -> {
+
             }
             else -> {
                 // do nothing
             }
+
         }
     })
-
-    StartScreenContent()
 }
 
-
-
 @Composable
-fun StartScreenContent() {
+fun RouteScreenContent() {
     Box (
         modifier= Modifier.fillMaxSize()
     ){
-        Text("Start")
+        Text("Route")
         // Splash
         CircularProgressIndicator(
             modifier = Modifier.align(Alignment.Center)

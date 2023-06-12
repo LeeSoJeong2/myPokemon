@@ -17,6 +17,7 @@ import com.kt.startkit.ui.features.start.StartScreen
 
 enum class AppNavigationRoute(val routeName: String) {
     START("/start"),
+    ROUTE("/route"),
     ROOT("/root")
 }
 
@@ -34,6 +35,9 @@ fun AppNavigationRoute.screen(controller: NavHostController,
     when(this) {
         AppNavigationRoute.START -> {
             StartScreen()
+        }
+        AppNavigationRoute.ROUTE -> {
+            RootScreen()
         }
         AppNavigationRoute.ROOT -> {
 //            val backStackEntry = remember(backstackEntry) {
