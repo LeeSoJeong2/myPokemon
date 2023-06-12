@@ -1,6 +1,7 @@
 package com.kt.startkit.ui.features.main.home
 
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
@@ -8,6 +9,9 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.Text
@@ -16,37 +20,39 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.LocalViewModelStoreOwner
 import com.kt.startkit.domain.entity.Item
+import com.kt.startkit.domain.entity.Pokemon
 
 @Composable
 fun HomeScreen(
-    viewModel: HomeScreenViewModel = hiltViewModel(),
+    viewModel: HomeViewModel = hiltViewModel(),
 ) {
     val state by viewModel.viewState.collectAsStateWithLifecycle()
 //    val state by viewModel.state.collectAsState()
 
     when (state) {
-        is HomeViewState.Initial -> {
-            viewModel.fetchInitialData()
+        is HomeState.Initial -> {
+            viewModel.observeUserProfile()
         }
-        is HomeViewState.Loading -> {
+        is HomeState.Loading -> {
             Box(modifier = Modifier.fillMaxSize()) {
                 CircularProgressIndicator(modifier = Modifier.align(Alignment.Center))
             }
         }
 
-        is HomeViewState.Data -> {
-            HomeContentView((state as HomeViewState.Data).items)
+        is HomeState.Data -> {
+            HomeContentView((state as HomeState.Data).pokemonInfo.results)
         }
 
-        is HomeViewState.Error -> {
+        is HomeState.Error -> {
             Box(modifier = Modifier.fillMaxSize()) {
                 Text(
-                    (state as HomeViewState.Error).message,
+                    (state as HomeState.Error).message,
                     modifier = Modifier.align(Alignment.Center)
                 )
             }
@@ -57,18 +63,22 @@ fun HomeScreen(
 
 @Composable
 private fun HomeContentView(
-    items: List<Item>,
+    pokemonList: List<Pokemon>,
 ) {
     LocalViewModelStoreOwner.current
-    LazyColumn(
-        modifier = Modifier.fillMaxHeight()
+    LazyVerticalGrid(
+        columns = GridCells.Fixed(2)
     ) {
-        items(
-            items = items,
-            itemContent = { item ->
-                HomeItemView(item = item)
-            }
-        )
+        items(pokemonList) {
+            PokemonIcon(pokemon = it)
+        }
+    }
+}
+
+@Composable
+private fun PokemonIcon(pokemon: Pokemon) {
+    Column {
+        Text(pokemon.name)
     }
 }
 
@@ -86,4 +96,9 @@ private fun HomeItemView(item: Item) {
     }
 }
 
-
+@Preview
+@Composable
+fun HomeScreenPeView() {
+//    HomeScreen()
+    PokemonIcon(pokemon = Pokemon(name = "Pokemon", id = "1"))
+}

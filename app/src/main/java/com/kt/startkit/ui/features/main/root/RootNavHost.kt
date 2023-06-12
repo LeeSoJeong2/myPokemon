@@ -13,7 +13,7 @@ import com.kt.startkit.ui.features.main.setting.SettingScreen
 import com.kt.startkit.ui.features.main.setting.notice.NoticeScreen
 
 enum class NavigationRoute(val routeName: String) {
-    HOME("/home_screen"),
+    HOME("/home"),
 
     SETTING_GRAPH("/setting"),
     SETTING("/setting/root"),

@@ -1,6 +1,9 @@
 package com.kt.startkit.di
 
 import com.kt.startkit.core.datastore.PreferenceDataStore
+import com.kt.startkit.data.datasource.PokemonDataSource
+import com.kt.startkit.domain.mapper.PokemonMapper
+import com.kt.startkit.domain.repository.PokemonRepository
 import com.kt.startkit.domain.repository.UserProfileRepository
 import dagger.Module
 import dagger.Provides
@@ -21,6 +24,20 @@ object MainModule {
         return UserProfileRepository(
             preferences = preferences,
             dispatcher = dispatcher
+        )
+    }
+
+    @Singleton
+    @Provides
+    fun providePokemonRepository(
+        @AppDispatchers(AppCoroutineDispatchers.IO) dispatcher: CoroutineDispatcher,
+        dataSource: PokemonDataSource,
+        mapper: PokemonMapper,
+    ): PokemonRepository {
+        return PokemonRepository(
+            dispatcher = dispatcher,
+            dataSource = dataSource,
+            mapper = mapper
         )
     }
 }

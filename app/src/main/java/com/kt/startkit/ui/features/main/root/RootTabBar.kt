@@ -13,7 +13,7 @@ import com.kt.startkit.R
 import com.kt.startkit.ui.res.IconRes
 import com.kt.startkit.ui.res.IconResId
 
-enum class RootTapBarItem(
+enum class RootTabBarItem(
     val selectedIcon: IconRes,
     val unselectedIcon: IconRes,
     val titleResId: Int,
@@ -33,16 +33,16 @@ enum class RootTapBarItem(
     );
 
     companion object {
-        fun items(): List<RootTapBarItem> {
+        fun items(): List<RootTabBarItem> {
             return values().asList()
         }
     }
 }
 
 @Composable
-fun RootTapBar(
-    tapBarItems: List<RootTapBarItem>,
-    onNavigateToTap: (NavigationRoute) -> Unit,
+fun RootTabBar(
+    tabBarItems: List<RootTabBarItem>,
+    onNavigateToTab: (NavigationRoute) -> Unit,
     currentDestination: NavDestination?,
     modifier: Modifier = Modifier,
 ) {
@@ -50,12 +50,12 @@ fun RootTapBar(
         modifier = modifier,
 //        tonalElevation = 0.dp,
     ) {
-        tapBarItems.forEach { item ->
-            val selected = currentDestination.isMainTapInHierarchy(item)
+        tabBarItems.forEach { item ->
+            val selected = currentDestination.isMainTabInHierarchy(item)
 
             NavigationBarItem(
                 selected = selected,
-                onClick = { onNavigateToTap(item.route) },
+                onClick = { onNavigateToTab(item.route) },
                 icon = {
                     val icon = if (selected) {
                         item.selectedIcon

@@ -2,7 +2,6 @@ package com.kt.startkit.data.datasource
 
 import com.kt.startkit.data.ApiService
 import com.kt.startkit.data.model.ItemModel
-import dagger.hilt.android.scopes.ActivityScoped
 import dagger.hilt.android.scopes.ViewModelScoped
 import javax.inject.Inject
 

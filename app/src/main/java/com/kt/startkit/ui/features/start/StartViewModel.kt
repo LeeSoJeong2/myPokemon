@@ -5,6 +5,10 @@ import com.kt.startkit.core.base.StateViewModel
 import com.kt.startkit.core.datastore.PreferenceDataStore
 import com.kt.startkit.core.logger.Logger
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.conflate
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.last
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -49,7 +53,8 @@ class StartViewModel @Inject constructor(
     }
 
     private suspend fun canAutoLogin(): Boolean {
-//        return preferenceDataStore.isAutoLogin().last()
+        delay(300)
         return true
+//        return preferenceDataStore.isAutoLogin().first()
     }
 }
