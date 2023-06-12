@@ -9,6 +9,7 @@ import androidx.navigation.NavOptionsBuilder
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.kt.startkit.ui.features.login.LoginScreen
 import com.kt.startkit.ui.features.main.LocalNavigationProvider
 import com.kt.startkit.ui.features.main.root.RootScreen
 import com.kt.startkit.ui.features.start.StartScreen
@@ -68,4 +69,3 @@ fun NavGraphBuilder.screen(controller: NavHostController, route: AppNavigationRo
         route.screen(controller, it)
     }
 }
-
