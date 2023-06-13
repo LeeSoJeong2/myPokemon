@@ -8,4 +8,7 @@
     <string name="profile">회원정보</string>
     <string name="home_screen_previous_page">이전</string>
     <string name="home_screen_next_page">다음</string>
+    <string name="pokemon_detail_height_title">Height</string>
+    <string name="pokemon_detail_weight_title">Weight</string>
+    <string name="pokemon_detail_ability_title">Ability</string>
 </resources>

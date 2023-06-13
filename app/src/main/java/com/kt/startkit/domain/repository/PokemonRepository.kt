@@ -3,7 +3,9 @@ package com.kt.startkit.domain.repository
 import com.kt.startkit.core.logger.Logger
 import com.kt.startkit.data.datasource.PokemonDataSource
 import com.kt.startkit.domain.entity.pokemon.Pokemon
+import com.kt.startkit.domain.entity.pokemon.PokemonDetail
 import com.kt.startkit.domain.entity.pokemon.PokemonInfo
+import com.kt.startkit.domain.mapper.PokemonDetailMapper
 import com.kt.startkit.domain.mapper.PokemonInfoMapper
 import com.kt.startkit.domain.mapper.PokemonMapper
 import kotlinx.coroutines.CoroutineDispatcher
@@ -19,7 +21,7 @@ class PokemonRepository(
     private val dataSource: PokemonDataSource,
     private val pokemonInfoMapper: PokemonInfoMapper,
     private val pokemonMapper: PokemonMapper,
-//    private val pokemonDetailMapper: PokemonDetailMapper
+    private val pokemonDetailMapper: PokemonDetailMapper
 ): Repository {
     private val _pokemonInfo = MutableStateFlow<PokemonInfo?>(null)
     val pokemonInfo = _pokemonInfo.asStateFlow()
@@ -46,7 +48,11 @@ class PokemonRepository(
         }
     }
 
-
+    suspend fun fetchPokemonDetail(name: String): PokemonDetail {
+        return withContext(CoroutineScope(dispatcher + SupervisorJob()).coroutineContext) {
+            pokemonDetailMapper(dataSource.getPokemonDetail(name))
+        }
+    }
 
     fun clear() {
         CoroutineScope(dispatcher + SupervisorJob()).launch {

@@ -23,7 +23,7 @@ enum class RootTabBarItem(
         selectedIcon = IconRes.DrawableResourceIcon(IconResId.home),
         unselectedIcon = IconRes.DrawableResourceIcon(IconResId.home),
         titleResId = R.string.home,
-        route = NavigationRoute.HOME,
+        route = NavigationRoute.HOME_GRAPH,
     ),
     SETTING(
         selectedIcon = IconRes.DrawableResourceIcon(IconResId.home),

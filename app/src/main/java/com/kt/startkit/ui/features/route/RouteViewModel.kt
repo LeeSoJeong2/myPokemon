@@ -18,7 +18,7 @@ class RouteViewModel @Inject constructor(
         Logger.d("fetch initial data")
         viewModelScope.launch {
             try {
-                pokemonRepository.fetchPokemonInfo(offset = Constants.pageOffset)
+                pokemonRepository.fetchPokemonInfo(offset = Constants.PAGE_OFFSET)
                 if (showOnBoarding()) {
                     updateState { RouteState.NavigateToOnBoarding }
                 }

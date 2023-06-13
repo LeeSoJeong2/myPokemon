@@ -60,29 +60,37 @@ data class PokemonSpritesModel (
     fun toList(): List<String> {
         val names = mutableListOf<String>()
 
-        if (backDefault != null) {
-            names.add(backDefault)
-        }
-        if (backFemale != null) {
-            names.add(backFemale)
-        }
-        if (backShiny != null) {
-            names.add(backShiny)
-        }
-        if (backShinyFemale != null) {
-            names.add(backShinyFemale)
-        }
         if (frontDefault != null) {
             names.add(frontDefault)
         }
-        if (frontFemale != null) {
-            names.add(frontFemale)
-        }
+
         if (frontShiny != null) {
             names.add(frontShiny)
         }
+
+        if (backDefault != null) {
+            names.add(backDefault)
+        }
+
+        if (backShiny != null) {
+            names.add(backShiny)
+        }
+
+
+        if (frontFemale != null) {
+            names.add(frontFemale)
+        }
+
         if (frontShinyFemale != null) {
             names.add(frontShinyFemale)
+        }
+
+        if (backFemale != null) {
+            names.add(backFemale)
+        }
+
+        if (backShinyFemale != null) {
+            names.add(backShinyFemale)
         }
 
         return names

@@ -1,7 +1,7 @@
 package com.kt.startkit.domain.entity.pokemon
 
+import androidx.compose.ui.graphics.Color
 import com.kt.startkit.data.model.pokemon.PokemonStatInfoModel
-import java.util.Dictionary
 
 data class PokemonDetail (
         val ability: List<PokemonAbility>,
@@ -12,7 +12,8 @@ data class PokemonDetail (
         val images: List<String>,
         val stats: Map<PokemonStatType, PokemonStat>,
         val weight: Int,
-        val type: PokemonType
+        val type: PokemonType,
+        val thumbnail: String?,
 )
 
 data class PokemonAbility(
@@ -21,14 +22,14 @@ data class PokemonAbility(
         val slot: Int,
 )
 
-enum class PokemonStatType {
-        HP,
-        Attack,
-        Defense,
-        SpecialAttack,
-        SpecialDefense,
-        Speed,
-        Unknown
+enum class PokemonStatType(val color: Color) {
+        HP(Color(0xFFCC3333)),
+        Attack(Color(0xFF669966)),
+        Defense(Color(0xFF6699FF)),
+        SpecialAttack(Color(0xFF006600)),
+        SpecialDefense(Color(0xFF3366CC)),
+        Speed(Color(0xFF9966FF)),
+        Unknown(Color(0xFFFFCC00))
         ;
         companion object {
                 fun fromModel(model: PokemonStatInfoModel): Pair<PokemonStatType, PokemonStat> {
