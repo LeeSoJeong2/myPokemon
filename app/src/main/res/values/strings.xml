@@ -6,4 +6,6 @@
 
 
     <string name="profile">회원정보</string>
+    <string name="home_screen_previous_page">이전</string>
+    <string name="home_screen_next_page">다음</string>
 </resources>

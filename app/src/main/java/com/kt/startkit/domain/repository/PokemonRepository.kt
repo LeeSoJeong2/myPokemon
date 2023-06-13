@@ -1,5 +1,6 @@
 package com.kt.startkit.domain.repository
 
+import com.kt.startkit.core.logger.Logger
 import com.kt.startkit.data.datasource.PokemonDataSource
 import com.kt.startkit.domain.entity.pokemon.Pokemon
 import com.kt.startkit.domain.entity.pokemon.PokemonInfo
@@ -10,8 +11,6 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.flow.last
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 

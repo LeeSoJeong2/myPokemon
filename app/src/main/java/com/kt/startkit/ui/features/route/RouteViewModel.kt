@@ -1,14 +1,13 @@
 package com.kt.startkit.ui.features.route
 
 import androidx.lifecycle.viewModelScope
-import com.kt.startkit.R
 import com.kt.startkit.core.base.StateViewModel
 import com.kt.startkit.core.logger.Logger
 import com.kt.startkit.domain.repository.PokemonRepository
+import com.kt.startkit.ui.util.Constants
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
-import kotlin.math.absoluteValue
 
 @HiltViewModel
 class RouteViewModel @Inject constructor(
@@ -19,7 +18,7 @@ class RouteViewModel @Inject constructor(
         Logger.d("fetch initial data")
         viewModelScope.launch {
             try {
-                pokemonRepository.fetchPokemonInfo(offset = 10)
+                pokemonRepository.fetchPokemonInfo(offset = Constants.pageOffset)
                 if (showOnBoarding()) {
                     updateState { RouteState.NavigateToOnBoarding }
                 }
