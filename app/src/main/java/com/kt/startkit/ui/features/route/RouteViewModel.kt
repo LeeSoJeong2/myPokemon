@@ -16,6 +16,10 @@ class RouteViewModel @Inject constructor(
         Logger.d("fetch initial data")
         viewModelScope.launch {
             try {
+                if(true) {
+                    updateState { RouteState.NavigateToOnBoarding }
+                    return@launch
+                }
                 updateState { RouteState.NavigateToMain }
             } catch (e: Exception) {
                 Logger.e("fetching error :${e.message}")
