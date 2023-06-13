@@ -5,7 +5,7 @@ import com.kt.startkit.core.base.StateViewModel
 import com.kt.startkit.core.datastore.PreferenceDataStore
 import com.kt.startkit.core.logger.Logger
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.last
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -31,8 +31,7 @@ class StartViewModel @Inject constructor(
 //                        StartScreenState.NavigateToMain
 //                    }
 //                    return@launch
-                }
-                else {
+                } else {
                     updateState { StartState.NeedToLogin }
                 }
 
@@ -49,7 +48,6 @@ class StartViewModel @Inject constructor(
     }
 
     private suspend fun canAutoLogin(): Boolean {
-//        return preferenceDataStore.isAutoLogin().last()
-        return true
+        return preferenceDataStore.isAutoLogin().first()
     }
 }

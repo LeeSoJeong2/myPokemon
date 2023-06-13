@@ -12,13 +12,17 @@ import androidx.navigation.compose.rememberNavController
 import com.kt.startkit.ui.features.login.LoginScreen
 import com.kt.startkit.ui.features.main.LocalNavigationProvider
 import com.kt.startkit.ui.features.main.root.RootScreen
+import com.kt.startkit.ui.features.onboarding.OnBoardingScreen
+import com.kt.startkit.ui.features.route.RouteScreen
 import com.kt.startkit.ui.features.start.StartScreen
 
 
 enum class AppNavigationRoute(val routeName: String) {
     START("/start"),
     ROUTE("/route"),
-    ROOT("/root")
+    ROOT("/root"),
+    LOGIN("/login"),
+    ON_BOARDING("/on_boarding"),
 }
 
 fun NavHostController.navigate(route: AppNavigationRoute, option: (NavOptionsBuilder.(NavHostController) -> Unit)? = null) {
@@ -37,7 +41,7 @@ fun AppNavigationRoute.screen(controller: NavHostController,
             StartScreen()
         }
         AppNavigationRoute.ROUTE -> {
-            RootScreen()
+            RouteScreen()
         }
         AppNavigationRoute.ROOT -> {
 //            val backStackEntry = remember(backstackEntry) {
@@ -49,6 +53,12 @@ fun AppNavigationRoute.screen(controller: NavHostController,
             //// inject
 //            RootScreen(screenViewModel= screenViewModel)
             RootScreen()
+        }
+        AppNavigationRoute.LOGIN -> {
+            LoginScreen()
+        }
+        AppNavigationRoute.ON_BOARDING -> {
+            OnBoardingScreen()
         }
     }
 }

@@ -1,8 +1,9 @@
 package com.kt.startkit.di
 
+import com.kt.startkit.core.datastore.PreferenceDataStore
 import com.kt.startkit.data.ApiService
 import com.kt.startkit.data.datasource.login.LoginDataSource
-import com.kt.startkit.domain.usecase.LoginAuthUsecase
+import com.kt.startkit.domain.usecase.LoginUsecase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -16,10 +17,11 @@ object LoginModule {
     @ViewModelScoped
     @Provides
     fun provideLoginUsecase(
+        preferences: PreferenceDataStore,
         dataSource: LoginDataSource,
         @AppDispatchers(AppCoroutineDispatchers.IO) dispatcher: CoroutineDispatcher
-    ): LoginAuthUsecase {
-        return LoginAuthUsecase(dataSource, dispatcher)
+    ): LoginUsecase {
+        return LoginUsecase(preferences, dataSource, dispatcher)
     }
 
     @ViewModelScoped

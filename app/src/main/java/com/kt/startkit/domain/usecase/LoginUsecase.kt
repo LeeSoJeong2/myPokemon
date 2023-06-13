@@ -1,14 +1,25 @@
 package com.kt.startkit.domain.usecase
 
 import com.kt.startkit.core.datastore.PreferenceDataStore
+import com.kt.startkit.data.datasource.login.LoginDataSource
 import dagger.hilt.android.scopes.ViewModelScoped
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
-@ViewModelScoped
-class LoginUsecase @Inject constructor(
-    private val preferences: PreferenceDataStore
+class LoginUsecase(
+    private val preferences: PreferenceDataStore,
+    private val dataSource: LoginDataSource,
+    private val dispatcher: CoroutineDispatcher,
 ) : Usecase {
+
+    suspend fun checkAuth(id: String, password: String) {
+        withContext(dispatcher) {
+            Thread.sleep(3000)
+            dataSource.checkAuth(id, password)
+        }
+    }
 
     suspend fun setAutoLogin(isAutoLogIn: Boolean) {
         preferences.updateAutoLogin(autoLogIn = isAutoLogIn)
@@ -18,7 +29,7 @@ class LoginUsecase @Inject constructor(
         return preferences.isAutoLogin().first()
     }
 
-    suspend fun loginIn(id: String, pwd: String) {
-        TODO("Not yet implemented")
-    }
+//    suspend fun loginIn(id: String, pwd: String) {
+//        TODO("Not yet implemented")
+//    }
 }
