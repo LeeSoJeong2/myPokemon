@@ -1,4 +1,4 @@
-package com.kt.startkit.data.model
+package com.kt.startkit.data.model.pokemon
 
 import com.squareup.moshi.Json
 

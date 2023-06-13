@@ -1,30 +1,53 @@
 package com.kt.startkit.domain.repository
 
 import com.kt.startkit.data.datasource.PokemonDataSource
-import com.kt.startkit.domain.entity.PokemonInfo
+import com.kt.startkit.domain.entity.pokemon.Pokemon
+import com.kt.startkit.domain.entity.pokemon.PokemonInfo
+import com.kt.startkit.domain.mapper.PokemonInfoMapper
 import com.kt.startkit.domain.mapper.PokemonMapper
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.SupervisorJob
-import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.last
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class PokemonRepository(
     private val dispatcher: CoroutineDispatcher,
     private val dataSource: PokemonDataSource,
-    private val mapper: PokemonMapper
+    private val pokemonInfoMapper: PokemonInfoMapper,
+    private val pokemonMapper: PokemonMapper,
+//    private val pokemonDetailMapper: PokemonDetailMapper
 ): Repository {
     private val _pokemonInfo = MutableStateFlow<PokemonInfo?>(null)
     val pokemonInfo = _pokemonInfo.asStateFlow()
+    private val _pokemon = MutableStateFlow<Pokemon?>(null)
+    val pokemon = _pokemon.asStateFlow()
 
-    suspend fun fetchPokemon(page: Int = 0) {
-        CoroutineScope(dispatcher + SupervisorJob()).async {
-            val result = dataSource.getPokemon(page = page)
-            _pokemonInfo.emit(mapper(result))
-        }.await()
+    suspend fun fetchPokemonInfo(page: Int = 0, offset: Int = 10) {
+        withContext(CoroutineScope(dispatcher + SupervisorJob()).coroutineContext) {
+            val result = pokemonInfoMapper(
+                dataSource.getPokemonInfo(
+                    page = page,
+                    pageOffset = offset
+                )
+            )
+            _pokemonInfo.emit(result)
+        }
     }
+
+    suspend fun fetchPokemon(name: String) {
+        withContext(CoroutineScope(dispatcher + SupervisorJob()).coroutineContext) {
+//        CoroutineScope(dispatcher + SupervisorJob()).launch {
+            val result = pokemonMapper(dataSource.getPokemonDetail(name))
+            _pokemon.emit(result)
+        }
+    }
+
+
 
     fun clear() {
         CoroutineScope(dispatcher + SupervisorJob()).launch {

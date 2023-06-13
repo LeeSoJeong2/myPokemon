@@ -1,8 +1,8 @@
 package com.kt.startkit.ui.features.main.root
 
 import com.kt.startkit.core.base.ViewState
-import com.kt.startkit.domain.entity.Pokemon
-import com.kt.startkit.domain.entity.PokemonInfo
+import com.kt.startkit.domain.entity.pokemon.Pokemon
+import com.kt.startkit.domain.entity.pokemon.PokemonInfo
 
 sealed class RootViewState: ViewState() {
     object Initial: RootViewState()

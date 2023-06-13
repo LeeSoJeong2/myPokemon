@@ -3,10 +3,7 @@ package com.kt.startkit.ui.features.main.home
 import androidx.lifecycle.viewModelScope
 import com.kt.startkit.core.base.StateViewModel
 import com.kt.startkit.domain.repository.PokemonRepository
-import com.kt.startkit.domain.usecase.ItemUsecase
-import com.kt.startkit.ui.features.main.root.RootViewState
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
@@ -21,30 +18,76 @@ class HomeViewModel @Inject constructor(
 //        return HomeViewState.Initial
 //    }
 
-    fun observeUserProfile() {
+    fun observePokemonInfo() {
         viewModelScope.launch {
             pokemonRepository.pokemonInfo
                 .onEach {
                     if (it == null) {
                         updateState { HomeState.Error("Fail to load pokemon!!") }
                     } else {
-                        updateState { HomeState.Data(pokemonInfo = it) }
+                        updateState { HomeState.Data(it) }
                     }
                 }
                 .collect()
         }
     }
 
-    fun fetchData(page: Int) {
-        viewModelScope.launch {
-            updateState { HomeState.Loading }
-            delay(1000)
 
-            try {
-                pokemonRepository.fetchPokemon(page)
-            } catch (e: Exception) {
-                updateState { HomeState.Error("Unknown error") }
+    fun observePokemonMap(){
+        viewModelScope.launch {
+            pokemonRepository.pokemon
+                .onEach {
+                    if (viewState.value is HomeState.Updated) {
+                        val updated = (viewState.value as HomeState.Updated).pokemonList.toMutableList()
+                        if (it != null) {
+                            updated.add(it)
+                            updateState { HomeState.Updated(updated) }
+                        }
+                    }
+                    else {
+                        if (it != null) {
+                            val updated = listOf(it)
+                            updateState { HomeState.Updated(updated)}
+                        }
+                    }
+                }
+                .collect()
+        }
+    }
+
+    fun fetchPokemon(names: List<String>) {
+        viewModelScope.launch {
+            names.forEach {
+                pokemonRepository.fetchPokemon(it)
             }
         }
     }
+
+
+
+//    when (val previousState = viewState.value) {
+//        is HomeState.Data -> {
+//            try {
+//                val pokemon = pokemonRepository.fetchPokemon(name)
+//                updateState {
+//                    HomeState.Data(previousState.pokemonInfo, pokemon = pokemon)
+//                }
+//            } catch (e: Exception) {
+//                Logger.d("fetch $name pokemon fail $e")
+//            }
+//        }
+//        else -> {}
+//    }
+//    fun fetchData(page: Int) {
+//        viewModelScope.launch {
+//            updateState { HomeState.Loading }
+//            delay(1000)
+//
+//            try {
+//                pokemonRepository.fetchPokemonInfo(page)
+//            } catch (e: Exception) {
+//                updateState { HomeState.Error("Unknown error") }
+//            }
+//        }
+//    }
 }
