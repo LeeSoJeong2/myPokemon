@@ -24,6 +24,9 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.Favorite
+import androidx.compose.material.icons.rounded.FavoriteBorder
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
@@ -86,11 +89,10 @@ private fun PokemonDetailContentView(
     onBackClick: () -> Unit,
     pokemon: PokemonDetail
 ) {
-    val scrollState = rememberScrollState()
+
 
     Column(
         Modifier
-            .verticalScroll(state = scrollState)
             .background(color = pokemon.type.color.copy(alpha = 0.5f)),
     ) {
         PokemonDetailAppBar(onBackClick = onBackClick)
@@ -116,6 +118,7 @@ private fun PokemonDetailContentView(
             thumbnail = pokemon.thumbnail
         )
         Spacer(modifier = Modifier.height(10.dp))
+
         // Sub
         PokemonSubview(pokemon = pokemon)
     }
@@ -158,11 +161,15 @@ private fun PokemonTypeView(type: PokemonType, modifier: Modifier = Modifier) {
 
 @Composable
 fun PokemonSubview(pokemon: PokemonDetail) {
+    val scrollState = rememberScrollState()
+
     Column(
         modifier = Modifier
             .clip(RoundedCornerShape(topStart = 40.dp, topEnd = 40.dp))
             .background(Color.White)
+            .verticalScroll(state = scrollState)
     ) {
+        Spacer(modifier = Modifier.height(20.dp))
         // images
         PokemonImagesView(
             images = pokemon.images,
@@ -170,6 +177,8 @@ fun PokemonSubview(pokemon: PokemonDetail) {
         )
         // stats
         PokemonStatsView(stats = pokemon.stats)
+
+        Spacer(modifier = Modifier.height(20.dp))
 
         // type, height, weight
         PokemonInfoView(pokemon = pokemon)
@@ -199,10 +208,12 @@ private fun PokemonAbilityView(abilities: List<PokemonAbility>) {
 @Composable
 private fun PokemonStatsView(stats: Map<PokemonStatType, PokemonStat>) {
     Column(modifier = Modifier.padding(horizontal = 23.dp)) {
-        PokemonSubTitleView(title = "Stat")
+        PokemonSubTitleView(title = stringResource(R.string.pokemon_detail_stat_title))
+        Spacer(modifier = Modifier.height(10.dp))
         stats.entries.forEach {
             if (it.value.effort > 0) {
                 PokemonSubInfoView(text = it.key.toString())
+                Spacer(modifier = Modifier.height(5.dp))
                 PokemonStatView(
                     effort = it.value.effort,
                     baseStat = it.value.baseStat,
@@ -322,6 +333,7 @@ private fun PokemonDetailAppBar(
 ) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.SpaceBetween,
         modifier = modifier
             .fillMaxWidth()
 //            .background(color.copy(alpha = 0.5f))
@@ -332,6 +344,19 @@ private fun PokemonDetailAppBar(
                 imageVector = IconResId.ArrowBack,
                 contentDescription = null,
                 tint = Color.White
+            )
+        }
+
+        IconButton(
+            onClick = {
+                // do something
+            }
+        ) {
+            Icon(
+                imageVector = Icons.Rounded.FavoriteBorder,
+                contentDescription = null,
+                tint = Color.White,
+                modifier = Modifier.size(30.dp)
             )
         }
     }
@@ -365,7 +390,10 @@ private fun LoadingPokemonView() {
 
         Spacer(Modifier.height(30.dp))
 
-        Column(horizontalAlignment = Alignment.CenterHorizontally) {
+        Column(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
             Box(
                 modifier = Modifier
                     .size(250.dp)

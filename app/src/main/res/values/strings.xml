@@ -11,4 +11,5 @@
     <string name="pokemon_detail_height_title">Height</string>
     <string name="pokemon_detail_weight_title">Weight</string>
     <string name="pokemon_detail_ability_title">Ability</string>
+    <string name="pokemon_detail_stat_title">Stat</string>
 </resources>
