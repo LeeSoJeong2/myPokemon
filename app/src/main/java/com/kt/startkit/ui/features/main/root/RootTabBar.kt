@@ -30,7 +30,15 @@ enum class RootTabBarItem(
         unselectedIcon = IconRes.DrawableResourceIcon(IconResId.setting),
         titleResId = R.string.setting,
         route = NavigationRoute.SETTING_GRAPH
-    );
+    ),
+    BERRY(
+        selectedIcon = IconRes.ImageVectorIcon(IconResId.berry),
+        unselectedIcon = IconRes.ImageVectorIcon(IconResId.berry),
+        titleResId = R.string.berry,
+        route = NavigationRoute.BERRY
+    ),
+
+    ;
 
     companion object {
         fun items(): List<RootTabBarItem> {
