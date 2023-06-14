@@ -28,8 +28,4 @@ class LoginUsecase(
     suspend fun isAutoLogin(): Boolean {
         return preferences.isAutoLogin().first()
     }
-
-//    suspend fun loginIn(id: String, pwd: String) {
-//        TODO("Not yet implemented")
-//    }
 }

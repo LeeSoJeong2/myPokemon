@@ -6,4 +6,6 @@
 
 
     <string name="profile">회원정보</string>
+    <string name="previous_step">이전으로</string>
+    <string name="next_step">다음으로</string>
 </resources>
