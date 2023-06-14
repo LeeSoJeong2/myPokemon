@@ -24,13 +24,20 @@ import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.Surface
 import androidx.compose.material.Text
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.ArrowBack
+import androidx.compose.material.icons.rounded.ArrowForward
+import androidx.compose.material3.Card
+import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -251,47 +258,104 @@ private fun PokemonPager(
         modifier = modifier
             .fillMaxWidth()
             .background(Color.White.copy(alpha = 0.8f))
-            .padding(horizontal = 30.dp),
+            .padding(horizontal = 20.dp),
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
-        Text(
-            stringResource(R.string.home_screen_previous_page),
-            fontSize = 18.sp,
-            fontWeight = FontWeight.Bold,
-            modifier = Modifier
-                .border(
-                    width = 2.dp,
-                    color = Color.Black,
-                    shape = RoundedCornerShape(20.dp)
-                )
-                .clip(shape = RoundedCornerShape(20.dp))
-                .background(Color.White)
-                .padding(10.dp)
-                .clickable {
-                    if (currentPage > 0) {
-                        viewModel.fetchPokemonInfo(currentPage - 1)
-                    }
+        PageButton(
+            text = stringResource(R.string.home_screen_previous_page),
+            icon = Icons.Rounded.ArrowBack,
+            color = Color(0xFFFF0000).copy(alpha = 0.8f),
+            onClick = {
+                if (currentPage > 0) {
+                    viewModel.fetchPokemonInfo(currentPage - 1)
                 }
+            }
         )
-        Spacer(modifier = Modifier.width(50.dp))
-        Text(
-            stringResource(R.string.home_screen_next_page),
-            fontSize = 18.sp,
-            fontWeight = FontWeight.Bold,
-            modifier = Modifier
-                .border(
-                    width = 2.dp,
-                    color = Color.Black,
-                    shape = RoundedCornerShape(20.dp)
-                )
-                .clip(shape = RoundedCornerShape(20.dp))
-                .background(Color.White)
-                .padding(10.dp)
-                .clickable {
-                    if (currentPage < pageCount) {
-                        viewModel.fetchPokemonInfo(currentPage + 1)
-                    }
+//        Text(
+//            stringResource(R.string.home_screen_previous_page),
+//            fontSize = 18.sp,
+//            fontWeight = FontWeight.Bold,
+//            modifier = Modifier
+//                .border(
+//                    width = 2.dp,
+//                    color = Color.Black,
+//                    shape = RoundedCornerShape(20.dp)
+//                )
+//                .clip(shape = RoundedCornerShape(20.dp))
+//                .background(Color.White)
+//                .padding(10.dp)
+//                .clickable {
+//                    if (currentPage > 0) {
+//                        viewModel.fetchPokemonInfo(currentPage - 1)
+//                    }
+//                }
+//        )
+//        Spacer(modifier = Modifier.width(50.dp))
+        PageButton(
+            text = stringResource(R.string.home_screen_next_page),
+            icon = Icons.Rounded.ArrowForward,
+            color = Color(0xFF3399FF).copy(alpha = 0.8f),
+            onClick = {
+                if (currentPage < pageCount) {
+                    viewModel.fetchPokemonInfo(currentPage + 1)
                 }
+            }
+        )
+//        Text(
+//            stringResource(R.string.home_screen_next_page),
+//            fontSize = 18.sp,
+//            fontWeight = FontWeight.Bold,
+//            modifier = Modifier
+//                .border(
+//                    width = 2.dp,
+//                    color = Color.Black,
+//                    shape = RoundedCornerShape(20.dp)
+//                )
+//                .clip(shape = RoundedCornerShape(20.dp))
+//                .background(Color.White)
+//                .padding(10.dp)
+//                .clickable {
+//                    if (currentPage < pageCount) {
+//                        viewModel.fetchPokemonInfo(currentPage + 1)
+//                    }
+//                }
+//        )
+    }
+}
+
+@Preview
+@Composable
+private fun PageButton(
+    text: String = "PREV",
+    icon: ImageVector = Icons.Rounded.ArrowBack,
+    color: Color = Color.LightGray,
+    onClick: () -> Unit = {}
+) {
+    Row(
+        modifier = Modifier
+            .clip(RoundedCornerShape(30.dp))
+            .background(color)
+            .padding(8.dp)
+            .clickable { onClick() },
+        verticalAlignment = Alignment.CenterVertically,
+    ) {
+        Icon(
+            modifier = Modifier
+                .clip(CircleShape)
+                .background(Color.White)
+                .padding(5.dp),
+            imageVector = icon,
+            contentDescription = null,
+            tint = color
+        )
+
+        Spacer(modifier = Modifier.width(5.dp))
+
+        Text(
+            text,
+            fontWeight = FontWeight.Bold,
+            fontSize = 18.sp,
+            color = Color.White
         )
     }
 }

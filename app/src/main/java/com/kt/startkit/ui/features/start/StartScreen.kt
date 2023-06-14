@@ -67,7 +67,6 @@ fun StartScreenContent() {
     Box (
         modifier= Modifier.fillMaxSize()
     ){
-        Text("Start")
         // Splash
         CircularProgressIndicator(
             modifier = Modifier.align(Alignment.Center)

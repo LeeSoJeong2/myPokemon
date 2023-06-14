@@ -10,8 +10,8 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import com.kt.startkit.R
 
 object IconResId {
-    val home = R.drawable.home_24
-    val setting = Icons.Rounded.Settings
+    const val home = R.drawable.home_24
+    const val setting = R.drawable.settings_24
 
     val Add = Icons.Rounded.Add
     val ArrowBack = Icons.Rounded.ArrowBack
