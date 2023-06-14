@@ -1,5 +1,6 @@
 package com.kt.startkit.data.datasource
 
+import androidx.compose.ui.unit.Constraints
 import com.kt.startkit.data.ApiService
 import com.kt.startkit.data.model.berry.BerryDetailModel
 import com.kt.startkit.data.model.berry.BerryInfoModel
@@ -22,11 +23,10 @@ class BerryDataSource @Inject constructor(
     }
 
     suspend fun getBerryDetail(
-        pageCount: Int,
-        berryIndexId: Int,
+        berryName: String,
     ): BerryDetailModel {
         return apiService.getBerryDetail(
-            itemId = 125 + pageCount*10 + berryIndexId+1
+            itemName = "$berryName-berry"
         )
     }
 

@@ -6,6 +6,10 @@ import com.kt.startkit.domain.entity.berry.BerryInfo
 import com.kt.startkit.domain.mapper.berry.BerryDetailMapper
 import com.kt.startkit.domain.mapper.berry.BerryInfoMapper
 import dagger.hilt.android.scopes.ViewModelScoped
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.withContext
+import okhttp3.Dispatcher
 import javax.inject.Inject
 
 @ViewModelScoped
@@ -15,17 +19,17 @@ class BerryUseCase @Inject constructor(
     private val berryDetailMapper: BerryDetailMapper,
 ) : Usecase {
 
-//    var id: String = ""
 
+    // TODO: coroutinescope 으로 변경
     suspend fun getBerryInfo(): BerryInfo {
         return berryInfoMapper(dataSource.getBerryInfo())
     }
 
+    // TODO: coroutinescope 으로 변경
     suspend fun getBerryDetail(
-        berryPage: Int,
-        berryIndex: Int,
+        berryName: String
     ): BerryDetail {
-        return berryDetailMapper(dataSource.getBerryDetail(berryPage, berryIndex))
+        return berryDetailMapper(dataSource.getBerryDetail(berryName))
     }
 
 }

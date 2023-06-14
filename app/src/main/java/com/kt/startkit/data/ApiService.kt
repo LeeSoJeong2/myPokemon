@@ -34,9 +34,9 @@ interface ApiService {
         @Query("limit") limit: Int? = null
     ): BerryInfoModel
 
-    @GET("item/{id}")
+    @GET("item/{name}")
     suspend fun getBerryDetail(
-        @Path("id") itemId: Int
+        @Path("name") itemName: String
     ): BerryDetailModel
 
 
