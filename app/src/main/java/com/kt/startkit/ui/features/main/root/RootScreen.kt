@@ -69,11 +69,13 @@ fun RootContentView() {
 
     Scaffold(
         bottomBar = {
-            RootTabBar(
-                tabBarItems = RootTabBarItem.items(),
-                onNavigateToTab = navController::navigateToMainTap,
-                currentDestination = navController.currentDestination,
-            )
+            if (navController.isShowBottomBar()) {
+                RootTabBar(
+                    tabBarItems = RootTabBarItem.items(),
+                    onNavigateToTab = navController::navigateToMainTap,
+                    currentDestination = navController.currentDestination,
+                )
+            }
         },
     ) { padding ->
         Row(
@@ -105,7 +107,7 @@ fun RootContentView() {
                                     )
                                 }
                                 IconButton(onClick = {
-                                    // TODO: 설정 화면 으로 이동
+                                    navController.navigate(NavigationRoute.SETTING_GRAPH .routeName)
                                 } ) {
                                     Icon(
                                         imageVector = Icons.Rounded.Settings,

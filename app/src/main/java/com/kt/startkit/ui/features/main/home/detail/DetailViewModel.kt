@@ -19,13 +19,13 @@ class PokemonDetailViewModel @Inject constructor(
             }
 
             try {
-                val pokemon = pokemonRepository.fetchPokemonDetail(name)
+                val pokemon = pokemonRepository.getPokemonDetail(name)
                 updateState {
                     PokemonDetailState.Data(pokemon = pokemon)
                 }
             } catch (e: Exception) {
                 updateState {
-                    PokemonDetailState.Error("Fail To Load $name")
+                    PokemonDetailState.Error("Fail To Load $name $e")
                 }
             }
 

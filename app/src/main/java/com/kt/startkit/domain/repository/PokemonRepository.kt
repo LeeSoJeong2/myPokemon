@@ -1,6 +1,5 @@
 package com.kt.startkit.domain.repository
 
-import com.kt.startkit.core.logger.Logger
 import com.kt.startkit.data.datasource.PokemonDataSource
 import com.kt.startkit.domain.entity.pokemon.Pokemon
 import com.kt.startkit.domain.entity.pokemon.PokemonDetail
@@ -48,9 +47,15 @@ class PokemonRepository(
         }
     }
 
-    suspend fun fetchPokemonDetail(name: String): PokemonDetail {
+    suspend fun getPokemonDetail(name: String): PokemonDetail {
         return withContext(CoroutineScope(dispatcher + SupervisorJob()).coroutineContext) {
             pokemonDetailMapper(dataSource.getPokemonDetail(name))
+        }
+    }
+
+    suspend fun getPokemon(name: String): Pokemon {
+        return withContext(CoroutineScope(dispatcher + SupervisorJob()).coroutineContext) {
+            pokemonMapper(dataSource.getPokemonDetail(name))
         }
     }
 

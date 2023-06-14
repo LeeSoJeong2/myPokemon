@@ -69,7 +69,7 @@ fun HomeScreen(
                 pokemonList = emptyList(),
                 pageCount = 0,
                 currentPage = 0,
-                onPokemonClick = onPokemonClick
+                onPokemonClick = onPokemonClick,
             )
         }
 
@@ -82,7 +82,7 @@ fun HomeScreen(
                 pokemonList = emptyList(),
                 pageCount = (homeState.pokemonInfo.count / Constants.PAGE_OFFSET),
                 currentPage = homeState.currentPage,
-                onPokemonClick = onPokemonClick
+                onPokemonClick = onPokemonClick,
             )
         }
 
@@ -92,7 +92,7 @@ fun HomeScreen(
                 pokemonList = homeState.pokemonList,
                 pageCount = homeState.totalCount / Constants.PAGE_OFFSET,
                 currentPage = homeState.currentPage,
-                onPokemonClick = onPokemonClick
+                onPokemonClick = onPokemonClick,
             )
         }
 
@@ -112,7 +112,7 @@ private fun HomeContentView(
     pokemonList: List<Pokemon>,
     pageCount: Int,
     currentPage: Int,
-    onPokemonClick: (String) -> Unit = {}
+    onPokemonClick: (String) -> Unit = {},
 ) {
     LocalViewModelStoreOwner.current
 
@@ -266,26 +266,6 @@ private fun PokemonPager(
                 }
             }
         )
-//        Text(
-//            stringResource(R.string.home_screen_previous_page),
-//            fontSize = 18.sp,
-//            fontWeight = FontWeight.Bold,
-//            modifier = Modifier
-//                .border(
-//                    width = 2.dp,
-//                    color = Color.Black,
-//                    shape = RoundedCornerShape(20.dp)
-//                )
-//                .clip(shape = RoundedCornerShape(20.dp))
-//                .background(Color.White)
-//                .padding(10.dp)
-//                .clickable {
-//                    if (currentPage > 0) {
-//                        viewModel.fetchPokemonInfo(currentPage - 1)
-//                    }
-//                }
-//        )
-//        Spacer(modifier = Modifier.width(50.dp))
         PageButton(
             text = stringResource(R.string.home_screen_next_page),
             icon = Icons.Rounded.ArrowForward,
@@ -296,25 +276,6 @@ private fun PokemonPager(
                 }
             }
         )
-//        Text(
-//            stringResource(R.string.home_screen_next_page),
-//            fontSize = 18.sp,
-//            fontWeight = FontWeight.Bold,
-//            modifier = Modifier
-//                .border(
-//                    width = 2.dp,
-//                    color = Color.Black,
-//                    shape = RoundedCornerShape(20.dp)
-//                )
-//                .clip(shape = RoundedCornerShape(20.dp))
-//                .background(Color.White)
-//                .padding(10.dp)
-//                .clickable {
-//                    if (currentPage < pageCount) {
-//                        viewModel.fetchPokemonInfo(currentPage + 1)
-//                    }
-//                }
-//        )
     }
 }
 

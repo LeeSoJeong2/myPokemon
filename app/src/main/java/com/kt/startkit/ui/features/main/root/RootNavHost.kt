@@ -13,15 +13,15 @@ import com.kt.startkit.ui.features.main.LocalNavigationProvider
 import com.kt.startkit.ui.features.main.home.HomeScreen
 import com.kt.startkit.ui.features.main.home.detail.PokemonDetailScreen
 import com.kt.startkit.ui.features.main.setting.SettingScreen
-import com.kt.startkit.ui.features.main.setting.notice.NoticeScreen
 
 enum class NavigationRoute(val routeName: String) {
     HOME_GRAPH("/home"),
     HOME("/home/root"),
     HOME_DETAIL("/home/detail"),
 
-//    SETTING_GRAPH("/setting"),
-//    SETTING("/setting/root"),
+    SETTING_GRAPH("/setting"),
+    SETTING("/setting/root"),
+
 //    SETTING_PROFILE_NAME("/setting/profile_name"),
 
     ;
@@ -40,7 +40,7 @@ fun RootNavHost() {
         startDestination = NavigationRoute.HOME_GRAPH.routeName,
     ) {
         homeGraph(navController = navController)
-//        settingGraph(navController = navController)
+        settingGraph(navController = navController)
     }
 }
 
@@ -63,9 +63,11 @@ fun NavGraphBuilder.homeGraph(
     ) {
 
         composable(route = NavigationRoute.HOME.routeName) {
-            HomeScreen(onPokemonClick = { name ->
-                navController.navigate("${NavigationRoute.HOME_DETAIL.routeName}/$name")
-            })
+            HomeScreen(
+                onPokemonClick = { name ->
+                    navController.navigate("${NavigationRoute.HOME_DETAIL.routeName}/$name")
+                }
+            )
         }
         composable(
             route = "${NavigationRoute.HOME_DETAIL.routeName}/{${NavigationRoute.HOME_DETAIL_NAME}}",
@@ -78,39 +80,36 @@ fun NavGraphBuilder.homeGraph(
             PokemonDetailScreen(
                 name = name,
                 onBackClick = navController::popBackStack,
-
             )
         }
     }
 }
 
 /// SettingScreen
-//fun NavController.navigateToSetting(navOptions: NavOptions? = null) {
-//    navigate(NavigationRoute.SETTING_GRAPH.routeName, navOptions)
-//}
-//
-//fun NavGraphBuilder.settingGraph(
-//    navController: NavController,
-//) {
-//    navigation(
-//        route = NavigationRoute.SETTING_GRAPH.routeName,
-//        startDestination = NavigationRoute.SETTING.routeName,
-//    ) {
-//
-//        composable(route = NavigationRoute.SETTING.routeName) {
-//            SettingScreen(
-//                onItemClick = { route ->
-//                    navController.navigateToSettingItem(route)
-//                },
-//            )
-//        }
+fun NavController.navigateToSetting(navOptions: NavOptions? = null) {
+    navigate(NavigationRoute.SETTING_GRAPH.routeName, navOptions)
+}
+
+fun NavGraphBuilder.settingGraph(
+    navController: NavController,
+) {
+    navigation(
+        route = NavigationRoute.SETTING_GRAPH.routeName,
+        startDestination = NavigationRoute.SETTING.routeName,
+    ) {
+
+        composable(route = NavigationRoute.SETTING.routeName) {
+            SettingScreen(
+                onBackClick = navController::popBackStack,
+            )
+        }
 //        composable(route = NavigationRoute.SETTING_PROFILE_NAME.routeName) {
 //            NoticeScreen(
 //                onBackClick = navController::popBackStack
 //            )
 //        }
-//    }
-//}
+    }
+}
 
 fun NavController.navigateToSettingItem(route: String) {
 //    val encodedId = Uri.encode(itemId)
@@ -119,22 +118,6 @@ fun NavController.navigateToSettingItem(route: String) {
     this.navigate(route)
 }
 
-//fun NavGraphBuilder.settingItemScreen(
-//    onBackClick: () -> Unit,
-////    onItemClick: (String) -> Unit,
-//) {
-//    composable(
-//        route = NavigationRoute.SETTING_PROFILE_NAME.routeName,
-////        route = "topic_route/{$topicIdArg}",
-////        arguments = listOf(
-////            navArgument(topicIdArg) { type = NavType.StringType },
-////        ),
-//    ) {
-//        NoticeScreen(
-//            onBackClick = onBackClick
-//        )
-//    }
-//}
 
 
 

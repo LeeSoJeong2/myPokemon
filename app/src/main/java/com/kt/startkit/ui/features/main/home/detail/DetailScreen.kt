@@ -67,8 +67,6 @@ fun PokemonDetailScreen(
             if (name != null) {
                 viewModel.fetchPokemonDetail(name = name)
             }
-            Text("initial")
-
         }
 
         is PokemonDetailState.Loading -> LoadingPokemonView()

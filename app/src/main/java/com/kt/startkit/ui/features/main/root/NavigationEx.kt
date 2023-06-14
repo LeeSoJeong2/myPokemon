@@ -9,6 +9,17 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.navOptions
 
 @Composable
+fun NavHostController.isShowBottomBar(): Boolean {
+    return when(this.currentDestinationAsState()?.route) {
+        NavigationRoute.HOME_GRAPH.routeName -> true
+        NavigationRoute.HOME.routeName -> true
+        NavigationRoute.HOME_DETAIL.routeName -> true
+        // TODO: Berry 탭도 추가 할것.
+        else -> false
+    }
+}
+
+@Composable
 fun NavHostController.currentDestinationAsState(): NavDestination? =
     currentBackStackEntryAsState().value?.destination
 
