@@ -6,7 +6,6 @@ import androidx.compose.animation.core.infiniteRepeatable
 import androidx.compose.animation.core.keyframes
 import androidx.compose.animation.core.rememberInfiniteTransition
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -24,12 +23,10 @@ import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.ArrowBack
 import androidx.compose.material.icons.rounded.ArrowForward
-import androidx.compose.material3.Card
 import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -50,8 +47,6 @@ import coil.compose.AsyncImage
 import com.kt.startkit.R
 import com.kt.startkit.domain.entity.pokemon.Pokemon
 import com.kt.startkit.domain.entity.pokemon.PokemonType
-import com.kt.startkit.ui.features.main.LocalNavigationProvider
-import com.kt.startkit.ui.features.main.root.NavigationRoute
 import com.kt.startkit.ui.util.Constants
 import com.kt.startkit.ui.util.toFirstCharUpperCase
 
@@ -121,7 +116,7 @@ private fun HomeContentView(
 ) {
     LocalViewModelStoreOwner.current
 
-    val dummy = Constants.PAGE_OFFSET - pokemonList.size
+    val placeholder = Constants.PAGE_OFFSET - pokemonList.size
 
     Box(contentAlignment = Alignment.BottomCenter) {
         LazyVerticalGrid(
@@ -134,8 +129,8 @@ private fun HomeContentView(
                 )
             }
 
-            if (dummy > 0 ) {
-                items(dummy) {
+            if (placeholder > 0 ) {
+                items(placeholder) {
                     LoadingPokemonCell()
                 }
             }
