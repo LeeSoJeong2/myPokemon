@@ -25,12 +25,12 @@ enum class RootTabBarItem(
         titleResId = R.string.home,
         route = NavigationRoute.HOME_GRAPH,
     ),
-//    SETTING(
-//        selectedIcon = IconRes.DrawableResourceIcon(IconResId.setting),
-//        unselectedIcon = IconRes.DrawableResourceIcon(IconResId.setting),
-//        titleResId = R.string.setting,
-//        route = NavigationRoute.SETTING_GRAPH
-//    )
+    BERRY(
+        selectedIcon = IconRes.ImageVectorIcon(IconResId.berry),
+        unselectedIcon = IconRes.ImageVectorIcon(IconResId.berry),
+        titleResId = R.string.berry,
+        route = NavigationRoute.BERRY
+    ),
     ;
 
     companion object {

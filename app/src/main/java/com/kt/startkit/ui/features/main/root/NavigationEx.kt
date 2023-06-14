@@ -11,10 +11,16 @@ import androidx.navigation.navOptions
 @Composable
 fun NavHostController.isShowBottomBar(): Boolean {
     return when(this.currentDestinationAsState()?.route) {
+        // Hom Tab
         NavigationRoute.HOME_GRAPH.routeName -> true
         NavigationRoute.HOME.routeName -> true
         NavigationRoute.HOME_DETAIL.routeName -> true
-        // TODO: Berry 탭도 추가 할것.
+
+        // Berry Tab
+        NavigationRoute.BERRY_GRAPH.routeName -> true
+        NavigationRoute.BERRY.routeName -> true
+        NavigationRoute.BERRY_DETAIL.routeName -> true
+
         else -> false
     }
 }
@@ -29,6 +35,7 @@ fun NavHostController.currentRootTapBarItem(): RootTabBarItem? {
     return when (currentDestinationAsState()?.route) {
         NavigationRoute.HOME.routeName -> RootTabBarItem.HOME
 //        NavigationRoute.SETTING.routeName -> RootTabBarItem.SETTING
+        NavigationRoute.BERRY.routeName -> RootTabBarItem.BERRY
         else -> null
     }
 }
@@ -52,6 +59,7 @@ fun NavHostController.navigateToMainTap(route: NavigationRoute) {
     when (route) {
         NavigationRoute.HOME_GRAPH -> navigateToHome(topLevelNavOptions)
 //        NavigationRoute.SETTING_GRAPH -> navigateToSetting(topLevelNavOptions)
+        NavigationRoute.BERRY -> navigateToBerry(topLevelNavOptions)
         else -> {} // main tap 외의 route 는 무시한다.
     }
 }
