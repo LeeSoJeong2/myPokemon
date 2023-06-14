@@ -9,8 +9,10 @@ import androidx.navigation.NavOptionsBuilder
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.kt.startkit.ui.features.login.LoginScreen
 import com.kt.startkit.ui.features.main.LocalNavigationProvider
 import com.kt.startkit.ui.features.main.root.RootScreen
+import com.kt.startkit.ui.features.onboarding.OnBoardingScreen
 import com.kt.startkit.ui.features.route.RouteScreen
 import com.kt.startkit.ui.features.start.StartScreen
 import okhttp3.Route
@@ -20,7 +22,10 @@ enum class AppNavigationRoute(val routeName: String) {
     START("/start"),
     ROUTE("/route"),
     ROOT("/root"),
+    LOGIN("/login"),
+    ON_BOARDING("/on_boarding"),
 
+    ;
 }
 
 fun NavHostController.navigate(route: AppNavigationRoute, option: (NavOptionsBuilder.(NavHostController) -> Unit)? = null) {
@@ -52,6 +57,12 @@ fun AppNavigationRoute.screen(controller: NavHostController,
 //            RootScreen(screenViewModel= screenViewModel)
             RootScreen()
         }
+        AppNavigationRoute.LOGIN -> {
+            LoginScreen()
+        }
+        AppNavigationRoute.ON_BOARDING -> {
+            OnBoardingScreen()
+        }
     }
 }
 
@@ -75,4 +86,3 @@ fun NavGraphBuilder.screen(controller: NavHostController, route: AppNavigationRo
         route.screen(controller, it)
     }
 }
-

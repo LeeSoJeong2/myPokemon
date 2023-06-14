@@ -34,6 +34,6 @@ class RouteViewModel @Inject constructor(
     }
 
     private suspend fun showOnBoarding(): Boolean {
-        return false
+        return true
     }
 }
