@@ -18,6 +18,8 @@ fun NavHostController.currentRootTapBarItem(): RootTabBarItem? {
     return when (currentDestinationAsState()?.route) {
         NavigationRoute.HOME.routeName -> RootTabBarItem.HOME
         NavigationRoute.SETTING.routeName -> RootTabBarItem.SETTING
+        NavigationRoute.BERRY.routeName -> RootTabBarItem.BERRY
+
         else -> null
     }
 }
@@ -41,6 +43,7 @@ fun NavHostController.navigateToMainTap(route: NavigationRoute) {
     when (route) {
         NavigationRoute.HOME_GRAPH -> navigateToHome(topLevelNavOptions)
         NavigationRoute.SETTING_GRAPH -> navigateToSetting(topLevelNavOptions)
+        NavigationRoute.BERRY -> navigateToBerry(topLevelNavOptions)
         else -> {} // main tap 외의 route 는 무시한다.
     }
 }
