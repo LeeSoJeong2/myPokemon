@@ -47,6 +47,7 @@ import coil.compose.AsyncImage
 import com.kt.startkit.R
 import com.kt.startkit.domain.entity.pokemon.Pokemon
 import com.kt.startkit.domain.entity.pokemon.PokemonType
+import com.kt.startkit.ui.theme.CustomColor
 import com.kt.startkit.ui.util.Constants
 import com.kt.startkit.ui.util.toFirstCharUpperCase
 
@@ -259,7 +260,7 @@ private fun PokemonPager(
         PageButton(
             text = stringResource(R.string.home_screen_previous_page),
             icon = Icons.Rounded.ArrowBack,
-            color = Color(0xFFFF0000).copy(alpha = 0.8f),
+            color = CustomColor.Red.copy(alpha = 0.8f),
             onClick = {
                 if (currentPage > 0) {
                     viewModel.fetchPokemonInfo(currentPage - 1)
@@ -269,7 +270,7 @@ private fun PokemonPager(
         PageButton(
             text = stringResource(R.string.home_screen_next_page),
             icon = Icons.Rounded.ArrowForward,
-            color = Color(0xFF3399FF).copy(alpha = 0.8f),
+            color = CustomColor.Blue.copy(alpha = 0.8f),
             onClick = {
                 if (currentPage < pageCount) {
                     viewModel.fetchPokemonInfo(currentPage + 1)

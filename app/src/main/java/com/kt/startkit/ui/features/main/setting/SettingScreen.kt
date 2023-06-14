@@ -44,6 +44,7 @@ import com.kt.startkit.R
 import com.kt.startkit.domain.entity.pokemon.Pokemon
 import com.kt.startkit.domain.entity.pokemon.PokemonType
 import com.kt.startkit.ui.res.IconResId
+import com.kt.startkit.ui.theme.CustomColor
 import com.kt.startkit.ui.util.toFirstCharUpperCase
 
 @Composable
@@ -126,7 +127,7 @@ private fun SettingContentView(
             .fillMaxWidth()
             .fillMaxHeight()
             .clip(RoundedCornerShape(topStart = 15.dp, topEnd = 15.dp))
-            .background(Color(0xFFF2F2F2))
+            .background(CustomColor.LightGray)
             .padding(23.dp)
             .verticalScroll(state = scrollState),
         verticalArrangement = Arrangement.SpaceBetween,
