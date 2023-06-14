@@ -17,7 +17,7 @@ class SettingViewModel @Inject constructor(
     fun fetchProfile() {
         viewModelScope.launch {
             updateState {
-                SettingState.Loading
+                SettingState.Fetching
             }
 
             try {
@@ -26,7 +26,7 @@ class SettingViewModel @Inject constructor(
                 val name = "ditto"
                 val pokemon = pokemonRepository.getPokemon(name)
                 updateState {
-                    SettingState.Data(pokemon = pokemon)
+                    SettingState.Fetched(pokemon = pokemon)
                 }
 
             } catch (e: Exception) {

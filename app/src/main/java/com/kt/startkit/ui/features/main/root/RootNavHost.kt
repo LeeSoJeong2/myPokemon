@@ -13,6 +13,7 @@ import com.kt.startkit.ui.features.main.LocalNavigationProvider
 import com.kt.startkit.ui.features.main.home.HomeScreen
 import com.kt.startkit.ui.features.main.home.detail.PokemonDetailScreen
 import com.kt.startkit.ui.features.main.setting.SettingScreen
+import com.kt.startkit.ui.util.Constants
 
 enum class NavigationRoute(val routeName: String) {
     HOME_GRAPH("/home"),
@@ -78,7 +79,7 @@ fun NavGraphBuilder.homeGraph(
             val name = it.arguments?.getString(NavigationRoute.HOME_DETAIL_NAME)
 
             PokemonDetailScreen(
-                name = name,
+                name = name ?: Constants.DEFAULT_POKEMON_NAME,
                 onBackClick = navController::popBackStack,
             )
         }

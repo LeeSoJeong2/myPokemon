@@ -57,7 +57,7 @@ fun SettingScreen(
             viewModel.fetchProfile()
         }
 
-        is SettingState.Loading -> SettingLoadingView()
+        is SettingState.Fetching -> SettingLoadingView()
 
         is SettingState.Error -> {
             SettingContentScreen(
@@ -66,10 +66,10 @@ fun SettingScreen(
             )
         }
 
-        is SettingState.Data -> {
+        is SettingState.Fetched -> {
             SettingContentScreen(
                 onBackClick = onBackClick,
-                pokemon = (state as SettingState.Data).pokemon
+                pokemon = (state as SettingState.Fetched).pokemon
             )
         }
     }

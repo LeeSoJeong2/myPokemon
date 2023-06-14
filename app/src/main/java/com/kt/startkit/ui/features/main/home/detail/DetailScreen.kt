@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -25,7 +26,6 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.Favorite
 import androidx.compose.material.icons.rounded.FavoriteBorder
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -50,33 +50,38 @@ import com.kt.startkit.domain.entity.pokemon.PokemonDetail
 import com.kt.startkit.domain.entity.pokemon.PokemonStat
 import com.kt.startkit.domain.entity.pokemon.PokemonStatType
 import com.kt.startkit.domain.entity.pokemon.PokemonType
+import com.kt.startkit.ui.features.main.home.HomeState
 import com.kt.startkit.ui.res.IconResId
-import com.kt.startkit.ui.util.Constants
 import com.kt.startkit.ui.util.toFirstCharUpperCase
 
 @Composable
 fun PokemonDetailScreen(
     viewModel: PokemonDetailViewModel = hiltViewModel(),
-    name: String?,
+    name: String,
     onBackClick: () -> Unit,
 ) {
     val state by viewModel.viewState.collectAsStateWithLifecycle()
 
     when (state) {
         is PokemonDetailState.Initial -> {
-            if (name != null) {
-                viewModel.fetchPokemonDetail(name = name)
+            viewModel.fetchPokemonDetail(name = name)
+        }
+
+        is PokemonDetailState.Fetching -> LoadingPokemonView()
+
+        is PokemonDetailState.Error ->  {
+            Box(modifier = Modifier.fillMaxSize()) {
+                Text(
+                    text = (state as HomeState.Error).message,
+                    modifier = Modifier.align(Alignment.Center)
+                )
             }
         }
 
-        is PokemonDetailState.Loading -> LoadingPokemonView()
-
-        is PokemonDetailState.Error -> LoadingPokemonView()
-
-        is PokemonDetailState.Data -> {
+        is PokemonDetailState.Fetched -> {
             PokemonDetailContentView(
                 onBackClick = onBackClick,
-                pokemon = (state as PokemonDetailState.Data).pokemon
+                pokemon = (state as PokemonDetailState.Fetched).pokemon
             )
         }
     }
@@ -87,8 +92,6 @@ private fun PokemonDetailContentView(
     onBackClick: () -> Unit,
     pokemon: PokemonDetail
 ) {
-
-
     Column(
         Modifier
             .background(color = pokemon.type.color.copy(alpha = 0.5f)),
@@ -104,6 +107,7 @@ private fun PokemonDetailContentView(
             modifier = Modifier.padding(horizontal = 23.dp)
         )
         Spacer(modifier = Modifier.height(10.dp))
+
         // type
         PokemonTypeView(
             type = pokemon.type,
@@ -137,7 +141,6 @@ private fun PokemonThumbnailView(thumbnail: String?) {
                 .background(Color.White.copy(alpha = 0.2f))
         )
     }
-
 }
 
 @Composable
@@ -151,7 +154,6 @@ private fun PokemonTypeView(type: PokemonType, modifier: Modifier = Modifier) {
                 .clip(RoundedCornerShape(20.dp))
                 .background(Color.White.copy(alpha = 0.2f))
                 .padding(horizontal = 10.dp, vertical = 5.dp)
-
         )
     }
     
@@ -418,53 +420,6 @@ private fun LoadingPokemonView() {
                 .width(350.dp)
                 .clip(RoundedCornerShape(20.dp))
                 .background(Color.LightGray.copy(alpha = alpha)),
-        )
-    }
-}
-
-@Preview
-@Composable
-fun Preview() {
-    Column(
-        modifier = Modifier.padding(10.dp)
-    ) {
-        Box(
-            modifier = Modifier
-                .height(40.dp)
-                .width(200.dp)
-                .clip(RoundedCornerShape(20.dp))
-                .background(Color.LightGray),
-        )
-
-        Spacer(Modifier.height(30.dp))
-
-        Column(horizontalAlignment = Alignment.CenterHorizontally) {
-            Box(
-                modifier = Modifier
-                    .size(300.dp)
-                    .clip(CircleShape)
-                    .background(Color.LightGray),
-            )
-        }
-
-        Spacer(Modifier.height(30.dp))
-
-        Box(
-            modifier = Modifier
-                .height(40.dp)
-                .width(400.dp)
-                .clip(RoundedCornerShape(20.dp))
-                .background(Color.LightGray),
-        )
-
-        Spacer(Modifier.height(30.dp))
-
-        Box(
-            modifier = Modifier
-                .height(40.dp)
-                .width(400.dp)
-                .clip(RoundedCornerShape(20.dp))
-                .background(Color.LightGray),
         )
     }
 }

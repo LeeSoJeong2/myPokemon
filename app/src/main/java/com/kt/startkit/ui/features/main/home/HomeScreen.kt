@@ -57,27 +57,28 @@ fun HomeScreen(
     onPokemonClick: (String) -> Unit = {}
 ) {
     val state by viewModel.viewState.collectAsStateWithLifecycle()
-//    val state by viewModel.state.collectAsState()
 
     when (state) {
         is HomeState.Initial -> {
             viewModel.observePokemonInfo()
-            viewModel.observePokemonMap()
+            viewModel.observePokemonList()
         }
 
-        is HomeState.Updating -> {
+        is HomeState.Fetching -> {
+            // Shimmer 화면.
             HomeContentView(
                 pokemonList = emptyList(),
                 pageCount = 0,
                 currentPage = 0,
                 onPokemonClick = onPokemonClick,
+                isFetching = true
             )
         }
 
-        is HomeState.Data -> {
-            viewModel.fetchPokemon((state as HomeState.Data).pokemonInfo.names)
+        is HomeState.PokemonInfoFetched -> {
+            viewModel.fetchPokemon((state as HomeState.PokemonInfoFetched).pokemonInfo.names)
             
-            val homeState = (state as HomeState.Data)
+            val homeState = (state as HomeState.PokemonInfoFetched)
 
             HomeContentView(
                 pokemonList = emptyList(),
@@ -87,8 +88,8 @@ fun HomeScreen(
             )
         }
 
-        is HomeState.Updated -> {
-            val homeState = (state as HomeState.Updated)
+        is HomeState.PokemonListFetched -> {
+            val homeState = (state as HomeState.PokemonListFetched)
             HomeContentView(
                 pokemonList = homeState.pokemonList,
                 pageCount = homeState.totalCount / Constants.PAGE_OFFSET,
@@ -114,9 +115,8 @@ private fun HomeContentView(
     pageCount: Int,
     currentPage: Int,
     onPokemonClick: (String) -> Unit = {},
+    isFetching: Boolean = false,
 ) {
-    LocalViewModelStoreOwner.current
-
     val placeholder = Constants.PAGE_OFFSET - pokemonList.size
 
     Box(contentAlignment = Alignment.BottomCenter) {
@@ -136,9 +136,12 @@ private fun HomeContentView(
                 }
             }
         }
-        PokemonPager(
-            pageCount = pageCount,
-            currentPage = currentPage)
+
+        if (!isFetching) {
+            PokemonPager(
+                pageCount = pageCount,
+                currentPage = currentPage)
+        }
     }
 }
 
@@ -147,6 +150,10 @@ private fun PokemonCell(
     pokemon: Pokemon,
     onPokemonClick: (String) -> Unit = {}
 ) {
+    val modifier = Modifier
+        .size(140.dp)
+        .clip(RoundedCornerShape(20.dp))
+
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier
@@ -155,61 +162,60 @@ private fun PokemonCell(
                 onPokemonClick(pokemon.name)
             }
     ) {
-        PokemonImage(pokemon = pokemon)
-    }
-}
-
-@Preview
-@Composable
-private fun PokemonImage(pokemon: Pokemon = Pokemon(
-    name = "ditto",
-    type = PokemonType.ETC,
-    thumbnail = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/132.png",
-    id = 132)
-) {
-    val modifier = Modifier
-        .size(140.dp)
-        .clip(RoundedCornerShape(20.dp))
-    Box(
-        modifier = modifier
-            .background(pokemon.type.color.copy(alpha = 0.5f))
-    ) {
         Box(
             modifier = modifier
-                .padding(start = 10.dp, top = 10.dp),
-            contentAlignment = Alignment.TopStart
+                .background(pokemon.type.color.copy(alpha = 0.5f))
         ) {
-            Column {
-                Text(
-                    pokemon.name.toFirstCharUpperCase(),
-                    fontWeight = FontWeight.Bold,
-                    fontSize = 18.sp,
-                    color = Color.White
-                )
-                Spacer(modifier = Modifier.height(10.dp))
-                Text(
-                    pokemon.type.toString(),
-                    color = Color.White,
-                    fontSize = 13.sp,
-                    fontWeight = FontWeight.W400,
+            PokemonInfoView(modifier = modifier, pokemon = pokemon)
+
+            // Pokemon Image
+            Box(
+                modifier = modifier.padding(5.dp),
+                contentAlignment = Alignment.BottomEnd
+            ) {
+                AsyncImage(
+                    model = pokemon.thumbnail,
+                    contentDescription = null,
                     modifier = Modifier
-                        .clip(RoundedCornerShape(15.dp))
+                        .size(80.dp)
+                        .clip(CircleShape)
                         .background(Color.White.copy(alpha = 0.2f))
-                        .padding(horizontal = 8.dp, vertical = 5.dp)
                 )
             }
         }
-        Box(
-            modifier = modifier.padding(5.dp),
-            contentAlignment = Alignment.BottomEnd
-        ) {
-            AsyncImage(
-                model = pokemon.thumbnail,
-                contentDescription = null,
+    }
+}
+
+@Composable
+private fun PokemonInfoView(
+    modifier: Modifier,
+    pokemon: Pokemon
+) {
+    Box(
+        modifier = modifier
+            .padding(start = 10.dp, top = 10.dp),
+        contentAlignment = Alignment.TopStart
+    ) {
+        Column {
+            // Pokemon Name
+            Text(
+                pokemon.name.toFirstCharUpperCase(),
+                fontWeight = FontWeight.Bold,
+                fontSize = 18.sp,
+                color = Color.White
+            )
+            Spacer(modifier = Modifier.height(10.dp))
+
+            // Pokemon Type
+            Text(
+                pokemon.type.toString(),
+                color = Color.White,
+                fontSize = 13.sp,
+                fontWeight = FontWeight.W400,
                 modifier = Modifier
-                    .size(80.dp)
-                    .clip(CircleShape)
+                    .clip(RoundedCornerShape(15.dp))
                     .background(Color.White.copy(alpha = 0.2f))
+                    .padding(horizontal = 8.dp, vertical = 5.dp)
             )
         }
     }
@@ -240,13 +246,12 @@ private fun LoadingPokemonCell() {
                 .background(Color.LightGray.copy(alpha = alpha)),
         )
     }
-
 }
 
 @Composable
 private fun PokemonPager(
-    viewModel: HomeViewModel = hiltViewModel(),
     modifier: Modifier = Modifier,
+    viewModel: HomeViewModel = hiltViewModel(),
     pageCount: Int,
     currentPage: Int
 ) {
@@ -280,10 +285,9 @@ private fun PokemonPager(
     }
 }
 
-@Preview
 @Composable
 private fun PageButton(
-    text: String = "PREV",
+    text: String,
     icon: ImageVector = Icons.Rounded.ArrowBack,
     color: Color = Color.LightGray,
     onClick: () -> Unit = {}

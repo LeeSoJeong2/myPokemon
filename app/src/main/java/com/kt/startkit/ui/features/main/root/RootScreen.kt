@@ -36,7 +36,7 @@ import com.kt.startkit.ui.features.main.LocalNavigationProvider
 @Composable
 fun RootScreen(
     navController: NavHostController = rememberNavController(),
-    viewModel: RootScreenViewModel = hiltViewModel(),
+    viewModel: RootViewModel = hiltViewModel(),
 ) {
     val state by viewModel.viewState.collectAsStateWithLifecycle()
 
@@ -45,7 +45,7 @@ fun RootScreen(
             viewModel.observeUserProfile()
         }
 
-        is RootViewState.Data -> {
+        is RootViewState.Fetched -> {
             CompositionLocalProvider(LocalNavigationProvider provides navController) {
                 RootContentView()
             }
