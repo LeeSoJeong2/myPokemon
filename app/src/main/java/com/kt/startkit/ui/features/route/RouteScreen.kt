@@ -57,6 +57,7 @@ fun RouteScreen(screenViewModel: RouteViewModel = hiltViewModel()) {
 
         }
     })
+    RouteScreenContent()
 }
 
 @Composable

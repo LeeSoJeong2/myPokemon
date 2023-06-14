@@ -10,7 +10,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class RootScreenViewModel @Inject constructor(
+class RootViewModel @Inject constructor(
     private val pokemonRepository: PokemonRepository,
 ) : StateViewModel<RootViewState>(initialState = RootViewState.Initial) {
 
@@ -22,7 +22,7 @@ class RootScreenViewModel @Inject constructor(
                     if (it == null) {
                         updateState { RootViewState.Error("Fail to load pokemon!!") }
                     } else {
-                        updateState { RootViewState.Data(pokemonInfo = it) }
+                        updateState { RootViewState.Fetched(pokemonInfo = it) }
                     }
                 }
                 .collect()

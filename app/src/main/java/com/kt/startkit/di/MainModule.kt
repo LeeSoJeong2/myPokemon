@@ -20,15 +20,14 @@ object MainModule {
     @Singleton
     @Provides
     fun provideUserProfileRepository(
-        preferences: PreferenceDataStore,
         @AppDispatchers(AppCoroutineDispatchers.IO) dispatcher: CoroutineDispatcher,
+        preferenceDataStore: PreferenceDataStore,
     ): UserProfileRepository {
         return UserProfileRepository(
-            preferences = preferences,
-            dispatcher = dispatcher
+            dispatcher = dispatcher,
+            preferences = preferenceDataStore,
         )
     }
-
     @Singleton
     @Provides
     fun providePokemonRepository(

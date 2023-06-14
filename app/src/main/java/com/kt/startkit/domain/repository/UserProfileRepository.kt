@@ -10,12 +10,10 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
-
 class UserProfileRepository(
     private val preferences: PreferenceDataStore,
     private val dispatcher: CoroutineDispatcher,
 ) : Repository {
-
     private val _profile = MutableStateFlow<UserProfile?>(null)
     val profile = _profile.asStateFlow()
 
@@ -30,7 +28,6 @@ class UserProfileRepository(
             throw Exception()
         }.await()
     }
-
     fun clear() {
         CoroutineScope(dispatcher + SupervisorJob()).launch {
             _profile.emit(null)

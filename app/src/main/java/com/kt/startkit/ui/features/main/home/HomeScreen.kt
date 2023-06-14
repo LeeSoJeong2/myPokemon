@@ -6,7 +6,6 @@ import androidx.compose.animation.core.infiniteRepeatable
 import androidx.compose.animation.core.keyframes
 import androidx.compose.animation.core.rememberInfiniteTransition
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -24,12 +23,10 @@ import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.ArrowBack
 import androidx.compose.material.icons.rounded.ArrowForward
-import androidx.compose.material3.Card
 import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -50,8 +47,7 @@ import coil.compose.AsyncImage
 import com.kt.startkit.R
 import com.kt.startkit.domain.entity.pokemon.Pokemon
 import com.kt.startkit.domain.entity.pokemon.PokemonType
-import com.kt.startkit.ui.features.main.LocalNavigationProvider
-import com.kt.startkit.ui.features.main.root.NavigationRoute
+import com.kt.startkit.ui.theme.CustomColor
 import com.kt.startkit.ui.util.Constants
 import com.kt.startkit.ui.util.toFirstCharUpperCase
 
@@ -61,43 +57,44 @@ fun HomeScreen(
     onPokemonClick: (String) -> Unit = {}
 ) {
     val state by viewModel.viewState.collectAsStateWithLifecycle()
-//    val state by viewModel.state.collectAsState()
 
     when (state) {
         is HomeState.Initial -> {
             viewModel.observePokemonInfo()
-            viewModel.observePokemonMap()
+            viewModel.observePokemonList()
         }
 
-        is HomeState.Updating -> {
+        is HomeState.Fetching -> {
+            // Shimmer 화면.
             HomeContentView(
                 pokemonList = emptyList(),
                 pageCount = 0,
                 currentPage = 0,
-                onPokemonClick = onPokemonClick
+                onPokemonClick = onPokemonClick,
+                isFetching = true
             )
         }
 
-        is HomeState.Data -> {
-            viewModel.fetchPokemon((state as HomeState.Data).pokemonInfo.names)
+        is HomeState.PokemonInfoFetched -> {
+            viewModel.fetchPokemon((state as HomeState.PokemonInfoFetched).pokemonInfo.names)
             
-            val homeState = (state as HomeState.Data)
+            val homeState = (state as HomeState.PokemonInfoFetched)
 
             HomeContentView(
                 pokemonList = emptyList(),
                 pageCount = (homeState.pokemonInfo.count / Constants.PAGE_OFFSET),
                 currentPage = homeState.currentPage,
-                onPokemonClick = onPokemonClick
+                onPokemonClick = onPokemonClick,
             )
         }
 
-        is HomeState.Updated -> {
-            val homeState = (state as HomeState.Updated)
+        is HomeState.PokemonListFetched -> {
+            val homeState = (state as HomeState.PokemonListFetched)
             HomeContentView(
                 pokemonList = homeState.pokemonList,
                 pageCount = homeState.totalCount / Constants.PAGE_OFFSET,
                 currentPage = homeState.currentPage,
-                onPokemonClick = onPokemonClick
+                onPokemonClick = onPokemonClick,
             )
         }
 
@@ -117,11 +114,10 @@ private fun HomeContentView(
     pokemonList: List<Pokemon>,
     pageCount: Int,
     currentPage: Int,
-    onPokemonClick: (String) -> Unit = {}
+    onPokemonClick: (String) -> Unit = {},
+    isFetching: Boolean = false,
 ) {
-    LocalViewModelStoreOwner.current
-
-    val dummy = Constants.PAGE_OFFSET - pokemonList.size
+    val placeholder = Constants.PAGE_OFFSET - pokemonList.size
 
     Box(contentAlignment = Alignment.BottomCenter) {
         LazyVerticalGrid(
@@ -134,15 +130,22 @@ private fun HomeContentView(
                 )
             }
 
-            if (dummy > 0 ) {
-                items(dummy) {
+            if (placeholder > 0 ) {
+                items(placeholder) {
                     LoadingPokemonCell()
                 }
             }
+
+            item {
+                Spacer(modifier = Modifier.height(50.dp))
+            }
         }
-        PokemonPager(
-            pageCount = pageCount,
-            currentPage = currentPage)
+
+        if (!isFetching) {
+            PokemonPager(
+                pageCount = pageCount,
+                currentPage = currentPage)
+        }
     }
 }
 
@@ -151,6 +154,10 @@ private fun PokemonCell(
     pokemon: Pokemon,
     onPokemonClick: (String) -> Unit = {}
 ) {
+    val modifier = Modifier
+        .size(140.dp)
+        .clip(RoundedCornerShape(20.dp))
+
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier
@@ -159,61 +166,60 @@ private fun PokemonCell(
                 onPokemonClick(pokemon.name)
             }
     ) {
-        PokemonImage(pokemon = pokemon)
-    }
-}
-
-@Preview
-@Composable
-private fun PokemonImage(pokemon: Pokemon = Pokemon(
-    name = "ditto",
-    type = PokemonType.ETC,
-    thumbnail = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/132.png",
-    id = 132)
-) {
-    val modifier = Modifier
-        .size(140.dp)
-        .clip(RoundedCornerShape(20.dp))
-    Box(
-        modifier = modifier
-            .background(pokemon.type.color.copy(alpha = 0.5f))
-    ) {
         Box(
             modifier = modifier
-                .padding(start = 10.dp, top = 10.dp),
-            contentAlignment = Alignment.TopStart
+                .background(pokemon.type.color.copy(alpha = 0.5f))
         ) {
-            Column {
-                Text(
-                    pokemon.name.toFirstCharUpperCase(),
-                    fontWeight = FontWeight.Bold,
-                    fontSize = 18.sp,
-                    color = Color.White
-                )
-                Spacer(modifier = Modifier.height(10.dp))
-                Text(
-                    pokemon.type.toString(),
-                    color = Color.White,
-                    fontSize = 13.sp,
-                    fontWeight = FontWeight.W400,
+            PokemonInfoView(modifier = modifier, pokemon = pokemon)
+
+            // Pokemon Image
+            Box(
+                modifier = modifier.padding(5.dp),
+                contentAlignment = Alignment.BottomEnd
+            ) {
+                AsyncImage(
+                    model = pokemon.thumbnail,
+                    contentDescription = null,
                     modifier = Modifier
-                        .clip(RoundedCornerShape(15.dp))
+                        .size(80.dp)
+                        .clip(CircleShape)
                         .background(Color.White.copy(alpha = 0.2f))
-                        .padding(horizontal = 8.dp, vertical = 5.dp)
                 )
             }
         }
-        Box(
-            modifier = modifier.padding(5.dp),
-            contentAlignment = Alignment.BottomEnd
-        ) {
-            AsyncImage(
-                model = pokemon.thumbnail,
-                contentDescription = null,
+    }
+}
+
+@Composable
+private fun PokemonInfoView(
+    modifier: Modifier,
+    pokemon: Pokemon
+) {
+    Box(
+        modifier = modifier
+            .padding(start = 10.dp, top = 10.dp),
+        contentAlignment = Alignment.TopStart
+    ) {
+        Column {
+            // Pokemon Name
+            Text(
+                pokemon.name.toFirstCharUpperCase(),
+                fontWeight = FontWeight.Bold,
+                fontSize = 18.sp,
+                color = Color.White
+            )
+            Spacer(modifier = Modifier.height(10.dp))
+
+            // Pokemon Type
+            Text(
+                pokemon.type.toString(),
+                color = Color.White,
+                fontSize = 13.sp,
+                fontWeight = FontWeight.W400,
                 modifier = Modifier
-                    .size(80.dp)
-                    .clip(CircleShape)
+                    .clip(RoundedCornerShape(15.dp))
                     .background(Color.White.copy(alpha = 0.2f))
+                    .padding(horizontal = 8.dp, vertical = 5.dp)
             )
         }
     }
@@ -244,13 +250,12 @@ private fun LoadingPokemonCell() {
                 .background(Color.LightGray.copy(alpha = alpha)),
         )
     }
-
 }
 
 @Composable
 private fun PokemonPager(
-    viewModel: HomeViewModel = hiltViewModel(),
     modifier: Modifier = Modifier,
+    viewModel: HomeViewModel = hiltViewModel(),
     pageCount: Int,
     currentPage: Int
 ) {
@@ -264,69 +269,29 @@ private fun PokemonPager(
         PageButton(
             text = stringResource(R.string.home_screen_previous_page),
             icon = Icons.Rounded.ArrowBack,
-            color = Color(0xFFFF0000).copy(alpha = 0.8f),
+            color = CustomColor.Red.copy(alpha = 0.8f),
             onClick = {
                 if (currentPage > 0) {
                     viewModel.fetchPokemonInfo(currentPage - 1)
                 }
             }
         )
-//        Text(
-//            stringResource(R.string.home_screen_previous_page),
-//            fontSize = 18.sp,
-//            fontWeight = FontWeight.Bold,
-//            modifier = Modifier
-//                .border(
-//                    width = 2.dp,
-//                    color = Color.Black,
-//                    shape = RoundedCornerShape(20.dp)
-//                )
-//                .clip(shape = RoundedCornerShape(20.dp))
-//                .background(Color.White)
-//                .padding(10.dp)
-//                .clickable {
-//                    if (currentPage > 0) {
-//                        viewModel.fetchPokemonInfo(currentPage - 1)
-//                    }
-//                }
-//        )
-//        Spacer(modifier = Modifier.width(50.dp))
         PageButton(
             text = stringResource(R.string.home_screen_next_page),
             icon = Icons.Rounded.ArrowForward,
-            color = Color(0xFF3399FF).copy(alpha = 0.8f),
+            color = CustomColor.Blue.copy(alpha = 0.8f),
             onClick = {
                 if (currentPage < pageCount) {
                     viewModel.fetchPokemonInfo(currentPage + 1)
                 }
             }
         )
-//        Text(
-//            stringResource(R.string.home_screen_next_page),
-//            fontSize = 18.sp,
-//            fontWeight = FontWeight.Bold,
-//            modifier = Modifier
-//                .border(
-//                    width = 2.dp,
-//                    color = Color.Black,
-//                    shape = RoundedCornerShape(20.dp)
-//                )
-//                .clip(shape = RoundedCornerShape(20.dp))
-//                .background(Color.White)
-//                .padding(10.dp)
-//                .clickable {
-//                    if (currentPage < pageCount) {
-//                        viewModel.fetchPokemonInfo(currentPage + 1)
-//                    }
-//                }
-//        )
     }
 }
 
-@Preview
 @Composable
 private fun PageButton(
-    text: String = "PREV",
+    text: String,
     icon: ImageVector = Icons.Rounded.ArrowBack,
     color: Color = Color.LightGray,
     onClick: () -> Unit = {}
@@ -334,9 +299,9 @@ private fun PageButton(
     Row(
         modifier = Modifier
             .clip(RoundedCornerShape(30.dp))
+            .clickable { onClick() }
             .background(color)
-            .padding(8.dp)
-            .clickable { onClick() },
+            .padding(8.dp),
         verticalAlignment = Alignment.CenterVertically,
     ) {
         Icon(

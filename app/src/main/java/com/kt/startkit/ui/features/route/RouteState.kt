@@ -11,7 +11,6 @@ import com.kt.startkit.core.base.ViewState
 //        |- NavigateToMain : 메인 화면 이동
 //        |- NavigateToOnBoarding : 온보딩 화면 이동
 
-
 sealed class RouteState : ViewState() {
     object Loading : RouteState()
 
