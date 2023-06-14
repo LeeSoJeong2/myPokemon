@@ -31,8 +31,8 @@ fun RouteScreen(screenViewModel: RouteViewModel = hiltViewModel()) {
         screenViewModel.fetchInitialData()
     })
 
-    StateViewModelListener(stateViewModel = screenViewModel, listen = {
-        when(it) {
+    StateViewModelListener(stateViewModel = screenViewModel, listen = { state ->
+        when(state) {
             is RouteState.FailToInitialize -> {
                 // 앱 실행 실패 팝업
                 Logger.e("Fail to start App!!")
@@ -64,7 +64,6 @@ fun RouteScreenContent() {
     Box (
         modifier= Modifier.fillMaxSize()
     ){
-        Text("Route")
         // Splash
         CircularProgressIndicator(
             modifier = Modifier.align(Alignment.Center)
