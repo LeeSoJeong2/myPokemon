@@ -27,11 +27,12 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.LocalViewModelStoreOwner
 import coil.compose.AsyncImage
+import com.kt.startkit.data.model.NamedApiResourceModel
+import com.kt.startkit.domain.entity.BerriesResponse
 import com.kt.startkit.domain.entity.Berry
 import com.kt.startkit.ui.features.main.LocalNavigationProvider
 import com.kt.startkit.ui.features.main.root.NavigationRoute
 import com.kt.startkit.ui.features.main.root.navigateToBerryItem
-import com.kt.startkit.ui.features.main.root.navigateToSettingItem
 
 @Composable
 fun BerryScreen(
@@ -39,7 +40,6 @@ fun BerryScreen(
     viewModel: BerryScreenViewModel = hiltViewModel(),
 ) {
     val state by viewModel.viewState.collectAsStateWithLifecycle()
-//    val state by viewModel.state.collectAsState()
 
     when (state) {
         is BerryViewState.Initial -> {
@@ -52,7 +52,9 @@ fun BerryScreen(
         }
 
         is BerryViewState.Data -> {
-            BerryContentView((state as BerryViewState.Data).berries)
+            BerryContentView(
+                (state as BerryViewState.Data).berriesResponse
+            )
         }
 
         is BerryViewState.Error -> {
@@ -69,7 +71,7 @@ fun BerryScreen(
 
 @Composable
 private fun BerryContentView(
-    berries: List<Berry>,
+    berriesResponse: BerriesResponse
 ) {
     LocalViewModelStoreOwner.current
 
@@ -83,7 +85,7 @@ private fun BerryContentView(
         contentPadding = PaddingValues(all = 8.dp),
 
     ) {
-        items(berries) { berry ->
+        items(berriesResponse.berriesList) { berry ->
             BerryItemView(
                 berry = berry,
                 onClick = {
@@ -96,7 +98,7 @@ private fun BerryContentView(
 
 @Composable
 private fun BerryItemView(
-    berry: Berry,
+    berry: NamedApiResourceModel,
     onClick: () -> Unit,
 ) {
     Box(
@@ -117,7 +119,7 @@ private fun BerryItemView(
             verticalAlignment = Alignment.CenterVertically
         ) {
             AsyncImage(
-                model = berry.imageUrl,
+                model = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/" + berry.name + "-berry.png",
                 contentDescription = null
             )
 

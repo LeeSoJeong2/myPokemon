@@ -9,8 +9,10 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import androidx.navigation.navigation
+import androidx.navigation.plusAssign
 import com.kt.startkit.ui.features.main.LocalNavigationProvider
 import com.kt.startkit.ui.features.main.berry.BerryScreen
+import com.kt.startkit.ui.features.main.favorite.FavoriteScreen
 import com.kt.startkit.ui.features.main.home.HomeScreen
 import com.kt.startkit.ui.features.main.home.detail.PokemonDetailScreen
 import com.kt.startkit.ui.features.main.setting.SettingScreen
@@ -27,8 +29,9 @@ enum class NavigationRoute(val routeName: String) {
 
     BERRY_GRAPH("/berry"),
     BERRY("/berry/root"),
-    BERRY_DETAIL("/berry/detail")
+    BERRY_DETAIL("/berry/detail"),
 
+    FAVORITE("/favorite"),
     ;
 
     companion object {
@@ -41,7 +44,6 @@ enum class NavigationRoute(val routeName: String) {
 fun RootNavHost() {
     val navController = LocalNavigationProvider.current
 
-    
     NavHost(
         navController = navController,
         startDestination = NavigationRoute.HOME_GRAPH.routeName,
@@ -49,6 +51,7 @@ fun RootNavHost() {
         homeGraph(navController = navController)
         settingGraph(navController = navController)
         berryGraph(navController = navController)
+        favoriteScreen(navController = navController)
     }
 }
 
@@ -181,3 +184,26 @@ fun NavController.navigateToBerryItem(route: String) {
 //    this.navigate("setting/$itemId")
     this.navigate(route)
 }
+
+
+// Favorite
+
+fun NavController.navigateToFavorite(navOptions: NavOptions? = null) {
+    navigate(NavigationRoute.FAVORITE.routeName, navOptions)
+
+    backQueue.lastOrNull()?.arguments?.apply {
+        putString("name", "who a u?")
+    }
+}
+fun NavGraphBuilder.favoriteScreen(
+    navController: NavController,
+) {
+    composable(
+        route = NavigationRoute.FAVORITE.routeName,
+    ) {
+        FavoriteScreen(
+            onBackClick = navController::popBackStack
+        )
+    }
+}
+

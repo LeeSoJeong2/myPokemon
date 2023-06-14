@@ -16,8 +16,8 @@ class BerryScreenViewModel @Inject constructor(
         viewModelScope.launch {
             updateState { BerryViewState.Loading }
             try {
-                val berries = berryUseCase.getBerries()
-                updateState { BerryViewState.Data(berries) }
+                val berriesResponse = berryUseCase.getBerriesResponse()
+                updateState { BerryViewState.Data(berriesResponse) }
             } catch (e: Exception) {
                 updateState { BerryViewState.Error("Unknown error") }
             }

@@ -2,6 +2,7 @@ package com.kt.startkit.data
 
 import com.kt.startkit.data.model.pokemon.PokemonDetailModel
 import com.kt.startkit.data.model.pokemon.PokemonModel
+import com.kt.startkit.data.model.BerriesResponseModel
 import com.kt.startkit.data.model.BerryModel
 import retrofit2.Retrofit
 import retrofit2.create
@@ -38,6 +39,12 @@ interface ApiService {
 //        @Query("offset") offset: Int? = null,
 //        @Query("limit") limit: Int? = null,
 //    ): BerriesModel
+
+    @GET("berry")
+    suspend fun getBerriesList(
+        @Query("offset") offset: Int? = null,
+        @Query("limit") limit: Int? = null,
+    ): BerriesResponseModel
 
     companion object {
         operator fun invoke(retrofit: Retrofit) = retrofit.create<ApiService>()
