@@ -12,7 +12,7 @@ import androidx.navigation.compose.rememberNavController
 import com.kt.startkit.ui.features.login.LoginScreen
 import com.kt.startkit.ui.features.main.LocalNavigationProvider
 import com.kt.startkit.ui.features.main.root.RootScreen
-import com.kt.startkit.ui.features.route.RouteScreen
+import com.kt.startkit.ui.features.onboarding.OnBoardingScreen
 import com.kt.startkit.ui.features.route.RouteScreen
 import com.kt.startkit.ui.features.start.StartScreen
 
@@ -58,7 +58,7 @@ fun AppNavigationRoute.screen(controller: NavHostController,
             LoginScreen()
         }
         AppNavigationRoute.ON_BOARDING -> {
-            //OnBoardingScreen()
+            OnBoardingScreen()
         }
     }
 }
