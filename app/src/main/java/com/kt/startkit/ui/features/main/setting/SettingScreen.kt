@@ -43,7 +43,7 @@ import com.kt.startkit.domain.entity.pokemon.Pokemon
 import com.kt.startkit.domain.entity.pokemon.PokemonType
 import com.kt.startkit.ui.res.IconResId
 import com.kt.startkit.ui.theme.CustomColor
-import com.kt.startkit.ui.util.toFirstCharUpperCase
+import com.kt.startkit.util.toFirstCharUpperCase
 
 @Composable
 fun SettingScreen(

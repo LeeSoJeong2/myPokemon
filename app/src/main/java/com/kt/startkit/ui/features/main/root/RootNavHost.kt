@@ -10,14 +10,13 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import androidx.navigation.navigation
-import androidx.navigation.plusAssign
 import com.kt.startkit.ui.features.main.LocalNavigationProvider
 import com.kt.startkit.ui.features.main.berry.BerryScreen
 import com.kt.startkit.ui.features.main.favorite.FavoriteScreen
 import com.kt.startkit.ui.features.main.home.HomeScreen
 import com.kt.startkit.ui.features.main.home.detail.PokemonDetailScreen
 import com.kt.startkit.ui.features.main.setting.SettingScreen
-import com.kt.startkit.ui.util.Constants
+import com.kt.startkit.util.Constants
 
 enum class NavigationRoute(val routeName: String) {
     HOME_GRAPH("/home"),

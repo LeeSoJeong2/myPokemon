@@ -1,4 +1,4 @@
-package com.kt.startkit.ui.util
+package com.kt.startkit.util
 
 fun String.toFirstCharUpperCase(): String {
     if (this.isEmpty()) {

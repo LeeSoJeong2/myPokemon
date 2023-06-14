@@ -38,7 +38,6 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -52,7 +51,7 @@ import com.kt.startkit.domain.entity.pokemon.PokemonStatType
 import com.kt.startkit.domain.entity.pokemon.PokemonType
 import com.kt.startkit.ui.features.main.home.HomeState
 import com.kt.startkit.ui.res.IconResId
-import com.kt.startkit.ui.util.toFirstCharUpperCase
+import com.kt.startkit.util.toFirstCharUpperCase
 
 @Composable
 fun PokemonDetailScreen(
