@@ -1,6 +1,6 @@
-package com.kt.startkit.domain.entity
+package com.kt.startkit.domain.entity.berry
 
-data class Berry(
+data class BerryDetail(
     val id: Int,
     val name: String,
     val effect: String,

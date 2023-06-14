@@ -1,23 +1,30 @@
 package com.kt.startkit.domain.usecase
 
 import com.kt.startkit.data.datasource.BerryDataSource
-import com.kt.startkit.domain.entity.BerriesResponse
-import com.kt.startkit.domain.mapper.BerriesResponseDomainMapper
-import com.kt.startkit.domain.mapper.BerryDomainMapper
+import com.kt.startkit.domain.entity.berry.BerryDetail
+import com.kt.startkit.domain.entity.berry.BerryInfo
+import com.kt.startkit.domain.mapper.berry.BerryDetailMapper
+import com.kt.startkit.domain.mapper.berry.BerryInfoMapper
 import dagger.hilt.android.scopes.ViewModelScoped
 import javax.inject.Inject
 
 @ViewModelScoped
 class BerryUseCase @Inject constructor(
     private val dataSource: BerryDataSource,
-    private val berriesResponseDomainMapper: BerriesResponseDomainMapper,
-    private val berryDomainMapper: BerryDomainMapper,
+    private val berryInfoMapper: BerryInfoMapper,
+    private val berryDetailMapper: BerryDetailMapper,
 ) : Usecase {
 
 //    var id: String = ""
 
-    suspend fun getBerriesResponse(): BerriesResponse {
-        return berriesResponseDomainMapper(dataSource.getBerriesList())
+    suspend fun getBerryInfo(): BerryInfo {
+        return berryInfoMapper(dataSource.getBerryInfo())
+    }
+
+    suspend fun getBerryDetail(
+        berryId: Int,
+    ): BerryDetail {
+        return berryDetailMapper(dataSource.getBerryDetail(berryId))
     }
 
 //    suspend fun getItems(): List<Item> {

@@ -1,5 +1,6 @@
 package com.kt.startkit.ui.features.main.root
 
+import BerryDetailScreen
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
@@ -164,16 +165,12 @@ fun NavGraphBuilder.berryGraph(
         startDestination = NavigationRoute.BERRY.routeName,
     ) {
         composable(route = NavigationRoute.BERRY.routeName) {
-            BerryScreen(
-                onItemClick = { route ->
-                    navController.navigateToBerryItem(route)
-                },
-            )
+            BerryScreen()
         }
         composable(route = NavigationRoute.BERRY_DETAIL.routeName) {
-//            BerryDetailScreen(
-//                onBackClick = navController::popBackStack
-//            )
+            BerryDetailScreen(
+                onBackClick = navController::popBackStack
+            )
         }
     }
 }
@@ -187,7 +184,6 @@ fun NavController.navigateToBerryItem(route: String) {
 
 
 // Favorite
-
 fun NavController.navigateToFavorite(navOptions: NavOptions? = null) {
     navigate(NavigationRoute.FAVORITE.routeName, navOptions)
 

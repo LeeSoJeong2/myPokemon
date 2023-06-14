@@ -10,16 +10,16 @@ import javax.inject.Inject
 @HiltViewModel
 class BerryScreenViewModel @Inject constructor(
     private val berryUseCase: BerryUseCase
-) : StateViewModel<BerryViewState>(initialState = BerryViewState.Initial) {
+) : StateViewModel<BerryState>(initialState = BerryState.Initial) {
 
     fun fetchInitialData() {
         viewModelScope.launch {
-            updateState { BerryViewState.Loading }
+            updateState { BerryState.Loading }
             try {
-                val berriesResponse = berryUseCase.getBerriesResponse()
-                updateState { BerryViewState.Data(berriesResponse) }
+                val berryInfo = berryUseCase.getBerryInfo()
+                updateState { BerryState.Data(berryInfo) }
             } catch (e: Exception) {
-                updateState { BerryViewState.Error("Unknown error") }
+                updateState { BerryState.Error("Unknown error") }
             }
         }
     }
