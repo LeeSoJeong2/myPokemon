@@ -11,12 +11,15 @@ import androidx.compose.runtime.NonRestartableComposable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.datastore.preferences.preferencesDataStore
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.kt.startkit.core.base.StateViewModelListener
 import com.kt.startkit.core.logger.Logger
 import com.kt.startkit.ui.features.main.LocalNavigationProvider
+import com.kt.startkit.ui.features.onboarding.OnBoardingScreen
 import com.kt.startkit.ui.navigator.AppNavigationRoute
 import com.kt.startkit.ui.navigator.navigate
+import timber.log.Timber
 
 @NonRestartableComposable
 @Composable
@@ -43,7 +46,10 @@ fun RouteScreen(screenViewModel: RouteViewModel = hiltViewModel()) {
                 }
             }
             is RouteState.NavigateToOnBoarding -> {
-
+                navController.navigate(route = AppNavigationRoute.ON_BOARDING) {
+                    navController.popBackStack()
+                    it.graph.setStartDestination(AppNavigationRoute.ON_BOARDING.routeName)
+                }
             }
             else -> {
                 // do nothing

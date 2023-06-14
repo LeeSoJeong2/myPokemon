@@ -49,7 +49,10 @@ fun StartScreen(screenViewModel: StartViewModel = hiltViewModel()) {
             }
             is StartState.NeedToLogin -> {
                 // TODO: show login activity
-                activity?.finish()
+                navController.navigate(route = AppNavigationRoute.LOGIN) {
+                    navController.popBackStack()
+                    it.graph.setStartDestination(AppNavigationRoute.LOGIN.routeName)
+                }
             }
             else -> {
                 // do nothing

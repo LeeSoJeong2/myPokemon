@@ -17,4 +17,6 @@
     <string name="setting_profile_title">프로필</string>
     <string name="setting_profile_error_message">(알 수 없음)</string>
     <string name="setting_logout_button">로그아웃</string>
+    <string name="previous_step">이전으로</string>
+    <string name="next_step">다음으로</string>
 </resources>
