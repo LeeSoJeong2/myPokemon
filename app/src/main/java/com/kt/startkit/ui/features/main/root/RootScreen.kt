@@ -1,5 +1,8 @@
 package com.kt.startkit.ui.features.main.root
 
+import android.os.Build
+import androidx.activity.compose.BackHandler
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -26,19 +29,28 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
+import com.kt.startkit.ui.common.AppFinishHandler
 import com.kt.startkit.ui.features.main.LocalNavigationProvider
 
-
+@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun RootScreen(
     navController: NavHostController = rememberNavController(),
     viewModel: RootViewModel = hiltViewModel(),
+    appFinishHandler: AppFinishHandler = AppFinishHandler(),
 ) {
     val state by viewModel.viewState.collectAsStateWithLifecycle()
+
+    val context = LocalContext.current
+
+    BackHandler(enabled = true){
+        appFinishHandler.onWillPop(context)
+    }
 
     when (state) {
         is RootViewState.Initial -> {

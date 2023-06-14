@@ -4,7 +4,7 @@ import androidx.lifecycle.viewModelScope
 import com.kt.startkit.core.base.StateViewModel
 import com.kt.startkit.core.logger.Logger
 import com.kt.startkit.domain.repository.PokemonRepository
-import com.kt.startkit.ui.util.Constants
+import com.kt.startkit.util.Constants
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject

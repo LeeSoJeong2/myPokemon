@@ -37,19 +37,16 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.lifecycle.viewmodel.compose.LocalViewModelStoreOwner
 import coil.compose.AsyncImage
 import com.kt.startkit.R
 import com.kt.startkit.domain.entity.pokemon.Pokemon
-import com.kt.startkit.domain.entity.pokemon.PokemonType
 import com.kt.startkit.ui.theme.CustomColor
-import com.kt.startkit.ui.util.Constants
-import com.kt.startkit.ui.util.toFirstCharUpperCase
+import com.kt.startkit.util.Constants
+import com.kt.startkit.util.toFirstCharUpperCase
 
 @Composable
 fun HomeScreen(
