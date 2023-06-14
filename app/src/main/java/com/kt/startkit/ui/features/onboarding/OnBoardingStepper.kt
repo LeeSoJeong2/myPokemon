@@ -31,15 +31,15 @@ fun OnBoardingStepper(
     // TODO 모든 viewmodel을 fetch해올 수 있으면 좋겠다,,
 ) {
 
-    val state by stepperViewModel.viewState.collectAsStateWithLifecycle()
     val navController = LocalNavigationProvider.current
+    val stepperState by stepperViewModel.viewState.collectAsStateWithLifecycle()
     val findPokemonState by findPokemonViewModel.viewState.collectAsStateWithLifecycle()
 
     Column(Modifier.fillMaxHeight()) {
-        Text(steps[state.currentStep].title, style = MaterialTheme.typography.h2)
-        when (steps[state.currentStep]) {
+        Text(steps[stepperState.currentStep].title, style = MaterialTheme.typography.h2)
+        when (steps[stepperState.currentStep]) {
             is FindPokemonStep -> {
-                val findPokemonStep = steps[state.currentStep] as FindPokemonStep
+                val findPokemonStep = steps[stepperState.currentStep] as FindPokemonStep
                 val subCurrentStep = findPokemonStep.subSteps[findPokemonState.currentStep]
                 Column {
                     subCurrentStep.Screen(
@@ -48,8 +48,9 @@ fun OnBoardingStepper(
                     Row(
                         verticalAlignment = Alignment.Bottom,
                     ) {
-                        if (state.currentStep > 0) Button(
+                        if (stepperState.currentStep > 0) Button(
                             onClick = {
+                                subCurrentStep.onStepPrevious()
                                 findPokemonViewModel.updateStep(findPokemonState.currentStep - 1)
                             }
                         ) {
@@ -57,6 +58,7 @@ fun OnBoardingStepper(
                         }
                         Button(
                             onClick = {
+                                subCurrentStep.onStepNext()
                                 findPokemonViewModel.updateStep(findPokemonState.currentStep + 1)
                             }
                         ) {
@@ -64,9 +66,9 @@ fun OnBoardingStepper(
                         }
                     }
                     if (findPokemonState is FindPokemonState.FindPokemonComplete) {
-                        stepperViewModel.updateStep(state.currentStep + 1)
+                        stepperViewModel.updateStep(stepperState.currentStep + 1)
                     }
-                    if (state is OnBoardingState.OnBoardingComplete) {
+                    if (stepperState is OnBoardingState.OnBoardingComplete) {
                         navController.navigate(AppNavigationRoute.ROOT) {
                             navController.popBackStack()
                             it.graph.setStartDestination(AppNavigationRoute.ROOT.routeName)

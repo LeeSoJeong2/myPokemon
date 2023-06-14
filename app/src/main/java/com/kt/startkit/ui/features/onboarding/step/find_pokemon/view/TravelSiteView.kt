@@ -9,5 +9,5 @@ import com.kt.startkit.ui.features.onboarding.step.find_pokemon.FindPokemonViewM
 fun TravelSiteView(
     findPokemonViewModel: FindPokemonViewModel,
 ) {
-    Text("travel site")
+    Text("선호 장소를 골라주세요")
 }

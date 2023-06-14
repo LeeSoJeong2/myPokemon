@@ -35,7 +35,7 @@ enum class FindPokemonSubStepType {
             UserProfile -> {
                 return FindPokemonSubStep.UserProfile(
                     state = StepState.Indexed,
-                    title = "이름과 나이를 알려주세요",
+                    title = "트레이너 정보",
                     onStepPrevious = {
                         //Timber.d("${navController.backQueue.map { it.destination }} stepper userinput previous")
                     },
@@ -47,7 +47,7 @@ enum class FindPokemonSubStepType {
             TravelSite -> {
                 return FindPokemonSubStep.TravelSite(
                     state = StepState.Indexed,
-                    title = "어디를 더 선호하나요?",
+                    title = "선호 장소",
                     onStepPrevious = {
                         Timber.d("stepper TravelSite previous")
                     },
@@ -59,7 +59,7 @@ enum class FindPokemonSubStepType {
             Routine -> {
                 return FindPokemonSubStep.Routine(
                     state = StepState.Indexed,
-                    title = "오늘 계획이 뭔가요? ",
+                    title = "오늘 계획 ",
                     onStepPrevious = {
                         Timber.d("stepper Routine previous")
                     },
@@ -71,7 +71,7 @@ enum class FindPokemonSubStepType {
             Complete -> {
                 return FindPokemonSubStep.Complete(
                     state = StepState.Indexed,
-                    title = "끝났어요! 다음 페이지를 넘기면 포켓몬을 알려드릴게요",
+                    title = "완료",
                     onStepPrevious = {
                         Timber.d("stepper Complete previous")
                     },

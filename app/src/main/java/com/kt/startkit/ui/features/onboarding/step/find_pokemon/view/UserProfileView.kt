@@ -9,5 +9,5 @@ import com.kt.startkit.ui.features.onboarding.step.find_pokemon.FindPokemonViewM
 fun UserProfileView(
     findPokemonViewModel: FindPokemonViewModel,
 ) {
-    Text("user profile")
+    Text("이름과 나이를 알려주세요")
 }
