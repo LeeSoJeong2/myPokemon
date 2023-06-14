@@ -1,6 +1,5 @@
 package com.kt.startkit.ui.features.main.root
 
-import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -11,10 +10,15 @@ import androidx.compose.foundation.layout.only
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeDrawing
 import androidx.compose.foundation.layout.windowInsetsPadding
+import androidx.compose.material.IconButton
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.Favorite
+import androidx.compose.material.icons.rounded.Settings
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
@@ -22,7 +26,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
@@ -66,9 +69,9 @@ fun RootContentView() {
 
     Scaffold(
         bottomBar = {
-            RootTapBar(
-                tapBarItems = RootTapBarItem.items(),
-                onNavigateToTap = navController::navigateToMainTap,
+            RootTabBar(
+                tabBarItems = RootTabBarItem.items(),
+                onNavigateToTab = navController::navigateToMainTap,
                 currentDestination = navController.currentDestination,
             )
         },
@@ -89,25 +92,30 @@ fun RootContentView() {
                 val destination = navController.currentRootTapBarItem()
                 if (destination != null) {
                     CenterAlignedTopAppBar(
-                        title = { Text(text = stringResource(id = destination.titleResId)) },
-//                        navigationIcon = {
-//                            IconButton(onClick = onNavigationClick) {
-//                                Icon(
-//                                    imageVector = navigationIcon,
-//                                    contentDescription = navigationIconContentDescription,
-//                                    tint = MaterialTheme.colorScheme.onSurface,
-//                                )
-//                            }
-//                        },
-//                        actions = {
-//                            IconButton(onClick = onActionClick) {
-//                                Icon(
-//                                    imageVector = actionIcon,
-//                                    contentDescription = actionIconContentDescription,
-//                                    tint = MaterialTheme.colorScheme.onSurface,
-//                                )
-//                            }
-//                        },
+                        title = {},
+                        actions = {
+                            Row {
+                                IconButton(onClick = {
+                                    // TODO: 즐겨 찾기 화면 으로 이동
+                                } ) {
+                                    Icon(
+                                        imageVector = Icons.Rounded.Favorite,
+                                        contentDescription = "",
+                                        tint = MaterialTheme.colorScheme.onSurface,
+                                    )
+                                }
+                                IconButton(onClick = {
+                                    // TODO: 설정 화면 으로 이동
+                                } ) {
+                                    Icon(
+                                        imageVector = Icons.Rounded.Settings,
+                                        contentDescription = "",
+                                        tint = MaterialTheme.colorScheme.onSurface,
+                                    )
+                                }
+                            }
+
+                        },
                         colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
                             containerColor = Color.Transparent,
                         ),

@@ -11,6 +11,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.kt.startkit.ui.features.main.LocalNavigationProvider
 import com.kt.startkit.ui.features.main.root.RootScreen
+import com.kt.startkit.ui.features.route.RouteScreen
 import com.kt.startkit.ui.features.start.StartScreen
 
 
@@ -36,7 +37,7 @@ fun AppNavigationRoute.screen(controller: NavHostController,
             StartScreen()
         }
         AppNavigationRoute.ROUTE -> {
-            RootScreen()
+            RouteScreen()
         }
         AppNavigationRoute.ROOT -> {
 //            val backStackEntry = remember(backstackEntry) {

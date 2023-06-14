@@ -18,7 +18,6 @@ import com.kt.startkit.ui.features.main.LocalNavigationProvider
 import com.kt.startkit.ui.navigator.AppNavigationRoute
 import com.kt.startkit.ui.navigator.navigate
 
-
 @NonRestartableComposable
 @Composable
 fun StartScreen(screenViewModel: StartViewModel = hiltViewModel()) {

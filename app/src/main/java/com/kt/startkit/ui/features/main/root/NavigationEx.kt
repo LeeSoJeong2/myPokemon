@@ -13,11 +13,11 @@ fun NavHostController.currentDestinationAsState(): NavDestination? =
     currentBackStackEntryAsState().value?.destination
 
 @Composable
-fun NavHostController.currentRootTapBarItem(): RootTapBarItem? {
+fun NavHostController.currentRootTapBarItem(): RootTabBarItem? {
 //    return when (currentDestination?.route) {
     return when (currentDestinationAsState()?.route) {
-        NavigationRoute.HOME.routeName -> RootTapBarItem.HOME
-        NavigationRoute.SETTING.routeName -> RootTapBarItem.SETTING
+        NavigationRoute.HOME.routeName -> RootTabBarItem.HOME
+        NavigationRoute.SETTING.routeName -> RootTabBarItem.SETTING
         else -> null
     }
 }
@@ -46,7 +46,7 @@ fun NavHostController.navigateToMainTap(route: NavigationRoute) {
 }
 
 /// 현재의 route path 에 입력한 탭이 포함되어 있는지 확인한다.
-fun NavDestination?.isMainTapInHierarchy(rootTapBarItem: RootTapBarItem) =
+fun NavDestination?.isMainTabInHierarchy(rootTabBarItem: RootTabBarItem) =
     this?.hierarchy?.any {
-        it.route?.contains(rootTapBarItem.route.routeName, true) ?: false
+        it.route?.contains(rootTabBarItem.route.routeName, true) ?: false
     } ?: false
