@@ -22,4 +22,3 @@ sealed class StartState : ViewState() {
     object NeedToLogin : Success()
     object NavigateToRouteScreen : Success()
 }
-
