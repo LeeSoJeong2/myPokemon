@@ -35,7 +35,7 @@ class PokemonMapper @Inject constructor() : Mapper<PokemonDetailModel, Pokemon> 
     }
 }
 
-@ViewModelScoped
+@Singleton
 class PokemonDetailMapper @Inject constructor(): Mapper<PokemonDetailModel, PokemonDetail> {
     override fun invoke(model: PokemonDetailModel): PokemonDetail {
         val stats = mutableMapOf<PokemonStatType, PokemonStat>()
@@ -59,7 +59,8 @@ class PokemonDetailMapper @Inject constructor(): Mapper<PokemonDetailModel, Poke
             images = model.sprites.toList(),
             stats = stats,
             weight = model.weight,
-            type = PokemonType.fromModel(model.types.firstOrNull()?.type?.name)
+            type = PokemonType.fromModel(model.types.firstOrNull()?.type?.name),
+            thumbnail = model.sprites.frontDefault
         )
     }
 

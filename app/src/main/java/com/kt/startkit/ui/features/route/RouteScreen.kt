@@ -58,7 +58,6 @@ fun RouteScreenContent() {
     Box (
         modifier= Modifier.fillMaxSize()
     ){
-        Text("Route")
         // Splash
         CircularProgressIndicator(
             modifier = Modifier.align(Alignment.Center)

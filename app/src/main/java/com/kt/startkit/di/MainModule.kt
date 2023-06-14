@@ -36,12 +36,14 @@ object MainModule {
         dataSource: PokemonDataSource,
         pokemonInfoMapper: PokemonInfoMapper,
         pokemonMapper: PokemonMapper,
+        pokemonDetailMapper: PokemonDetailMapper
     ): PokemonRepository {
         return PokemonRepository(
             dispatcher = dispatcher,
             dataSource = dataSource,
             pokemonInfoMapper = pokemonInfoMapper,
             pokemonMapper = pokemonMapper,
+            pokemonDetailMapper = pokemonDetailMapper
         )
     }
 }

@@ -39,7 +39,7 @@ fun NavHostController.navigateToMainTap(route: NavigationRoute) {
     }
 
     when (route) {
-        NavigationRoute.HOME -> navigateToHome(topLevelNavOptions)
+        NavigationRoute.HOME_GRAPH -> navigateToHome(topLevelNavOptions)
         NavigationRoute.SETTING_GRAPH -> navigateToSetting(topLevelNavOptions)
         else -> {} // main tap 외의 route 는 무시한다.
     }
