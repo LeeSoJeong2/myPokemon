@@ -83,12 +83,12 @@ class LoginViewModel @Inject constructor(
             }
             try {
                 usecase.checkAuth(viewState.value.inputs.id, viewState.value.inputs.password)
+                usecase.setAutoLogin(viewState.value.inputs.autoLogin)
                 updateState {
                     LoginState.AuthSuccess(
                         viewState.value.inputs.copyData()
                     )
                 }
-                usecase.setAutoLogin(viewState.value.inputs.autoLogin)
             } catch (e: Exception) {
                 updateState {
                     LoginState.Fail(
