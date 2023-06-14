@@ -18,7 +18,6 @@ import com.kt.startkit.ui.features.main.LocalNavigationProvider
 import com.kt.startkit.ui.navigator.AppNavigationRoute
 import com.kt.startkit.ui.navigator.navigate
 
-
 @NonRestartableComposable
 @Composable
 fun StartScreen(screenViewModel: StartViewModel = hiltViewModel()) {
@@ -71,7 +70,6 @@ fun StartScreenContent() {
     Box (
         modifier= Modifier.fillMaxSize()
     ){
-        Text("Start")
         // Splash
         CircularProgressIndicator(
             modifier = Modifier.align(Alignment.Center)

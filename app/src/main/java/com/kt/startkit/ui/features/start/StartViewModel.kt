@@ -31,7 +31,8 @@ class StartViewModel @Inject constructor(
 //                        StartScreenState.NavigateToMain
 //                    }
 //                    return@launch
-                } else {
+                }
+                else {
                     updateState { StartState.NeedToLogin }
                 }
 

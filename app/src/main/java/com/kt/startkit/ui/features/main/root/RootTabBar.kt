@@ -13,7 +13,7 @@ import com.kt.startkit.R
 import com.kt.startkit.ui.res.IconRes
 import com.kt.startkit.ui.res.IconResId
 
-enum class RootTapBarItem(
+enum class RootTabBarItem(
     val selectedIcon: IconRes,
     val unselectedIcon: IconRes,
     val titleResId: Int,
@@ -23,26 +23,26 @@ enum class RootTapBarItem(
         selectedIcon = IconRes.DrawableResourceIcon(IconResId.home),
         unselectedIcon = IconRes.DrawableResourceIcon(IconResId.home),
         titleResId = R.string.home,
-        route = NavigationRoute.HOME,
+        route = NavigationRoute.HOME_GRAPH,
     ),
     SETTING(
-        selectedIcon = IconRes.DrawableResourceIcon(IconResId.home),
-        unselectedIcon = IconRes.DrawableResourceIcon(IconResId.home),
+        selectedIcon = IconRes.DrawableResourceIcon(IconResId.setting),
+        unselectedIcon = IconRes.DrawableResourceIcon(IconResId.setting),
         titleResId = R.string.setting,
         route = NavigationRoute.SETTING_GRAPH
     );
 
     companion object {
-        fun items(): List<RootTapBarItem> {
+        fun items(): List<RootTabBarItem> {
             return values().asList()
         }
     }
 }
 
 @Composable
-fun RootTapBar(
-    tapBarItems: List<RootTapBarItem>,
-    onNavigateToTap: (NavigationRoute) -> Unit,
+fun RootTabBar(
+    tabBarItems: List<RootTabBarItem>,
+    onNavigateToTab: (NavigationRoute) -> Unit,
     currentDestination: NavDestination?,
     modifier: Modifier = Modifier,
 ) {
@@ -50,12 +50,12 @@ fun RootTapBar(
         modifier = modifier,
 //        tonalElevation = 0.dp,
     ) {
-        tapBarItems.forEach { item ->
-            val selected = currentDestination.isMainTapInHierarchy(item)
+        tabBarItems.forEach { item ->
+            val selected = currentDestination.isMainTabInHierarchy(item)
 
             NavigationBarItem(
                 selected = selected,
-                onClick = { onNavigateToTap(item.route) },
+                onClick = { onNavigateToTab(item.route) },
                 icon = {
                     val icon = if (selected) {
                         item.selectedIcon
