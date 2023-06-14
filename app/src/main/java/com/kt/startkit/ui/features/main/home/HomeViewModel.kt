@@ -21,9 +21,13 @@ class HomeViewModel @Inject constructor(
             pokemonRepository.pokemonInfo
                 .onEach {
                     if (it == null) {
-                        updateState { HomeState.Error(viewState.value.currentPage, "Fail to load pokemon!!") }
+                        updateState { HomeState.Error(
+                            currentPage = viewState.value.currentPage,
+                            "Fail to load pokemon!!") }
                     } else {
-                        updateState { HomeState.PokemonInfoFetched(viewState.value.currentPage, it) }
+                        updateState { HomeState.PokemonInfoFetched(
+                            currentPage = viewState.value.currentPage,
+                            pokemonInfo = it) }
                     }
                 }
                 .collect()
@@ -45,9 +49,9 @@ class HomeViewModel @Inject constructor(
 
                         updateState {
                             HomeState.PokemonListFetched(
-                                viewState.value.currentPage,
-                                (viewState.value as HomeState.PokemonListFetched).totalCount,
-                                pokemonListFetched
+                                currentPage = viewState.value.currentPage,
+                                totalCount = (viewState.value as HomeState.PokemonListFetched).totalCount,
+                                pokemonList = pokemonListFetched
                             )
                         }
                     }
@@ -55,9 +59,9 @@ class HomeViewModel @Inject constructor(
                     else if (viewState.value is HomeState.PokemonInfoFetched){
                         updateState {
                             HomeState.PokemonListFetched(
-                                viewState.value.currentPage,
-                                (viewState.value as HomeState.PokemonInfoFetched).pokemonInfo.count,
-                                listOf(it)
+                                currentPage = viewState.value.currentPage,
+                                totalCount = (viewState.value as HomeState.PokemonInfoFetched).pokemonInfo.count,
+                                pokemonList = listOf(it)
                             )
                         }
                     }
@@ -82,7 +86,7 @@ class HomeViewModel @Inject constructor(
     fun fetchPokemonInfo(page: Int) {
         viewModelScope.launch {
             updateState {
-                HomeState.Fetching(page)
+                HomeState.Fetching(currentPage = page)
             }
 
             try {
@@ -90,7 +94,7 @@ class HomeViewModel @Inject constructor(
             } catch(e: Exception) {
                 updateState {
                     HomeState.Error(
-                        viewState.value.currentPage,
+                        currentPage = viewState.value.currentPage,
                         "Fail to fetch pokemon info!!"
                     )
                 }
