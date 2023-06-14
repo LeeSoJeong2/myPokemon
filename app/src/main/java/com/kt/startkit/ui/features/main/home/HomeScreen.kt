@@ -135,6 +135,10 @@ private fun HomeContentView(
                     LoadingPokemonCell()
                 }
             }
+
+            item {
+                Spacer(modifier = Modifier.height(50.dp))
+            }
         }
 
         if (!isFetching) {
