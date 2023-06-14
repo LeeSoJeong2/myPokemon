@@ -1,4 +1,4 @@
-package com.kt.startkit.ui.features.onboarding.find_pokemon
+package com.kt.startkit.ui.features.onboarding.step.find_pokemon
 
 import com.kt.startkit.ui.features.onboarding.common.StepperState
 

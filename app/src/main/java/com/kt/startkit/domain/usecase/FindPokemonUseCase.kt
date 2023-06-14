@@ -1,6 +1,6 @@
-package com.kt.startkit.ui.features.onboarding.find_pokemon
+package com.kt.startkit.domain.usecase
 
-import com.kt.startkit.domain.usecase.Usecase
+import com.kt.startkit.data.datasource.on_boarding.FindPokemonDatasource
 import dagger.hilt.android.scopes.ViewModelScoped
 import javax.inject.Inject
 

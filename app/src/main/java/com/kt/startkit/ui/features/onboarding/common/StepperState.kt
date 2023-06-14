@@ -2,11 +2,11 @@ package com.kt.startkit.ui.features.onboarding.common
 
 import com.kt.startkit.core.base.ViewState
 
-// step -> stepper -> on boarding
-
+// StepperViewModel의 State
 abstract class StepperState: ViewState() {
-    abstract val currentStep: Int
-    abstract val totalSteps: Int
+    abstract val currentStep: Int // 현재 step
+    abstract val totalSteps: Int // step에서 갖고 있는 step 개수
+    val stepperType: StepperType = StepperType.Horizontal // step 출력 방향?
 }
 
 enum class StepperType {

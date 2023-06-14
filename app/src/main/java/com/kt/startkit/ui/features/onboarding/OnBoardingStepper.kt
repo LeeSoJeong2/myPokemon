@@ -1,14 +1,12 @@
-package com.kt.startkit.ui.features.onboarding.common
+package com.kt.startkit.ui.features.onboarding
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.material.Button
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -17,24 +15,20 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.kt.startkit.R
 import com.kt.startkit.ui.features.main.LocalNavigationProvider
-import com.kt.startkit.ui.features.onboarding.OnBoardingState
-import com.kt.startkit.ui.features.onboarding.OnBoardingViewModel
-import com.kt.startkit.ui.features.onboarding.find_pokemon.FindPokemonState
-import com.kt.startkit.ui.features.onboarding.find_pokemon.FindPokemonViewModel
-import com.kt.startkit.ui.features.onboarding.find_pokemon.step.FindPokemonStep
-import com.kt.startkit.ui.features.onboarding.find_pokemon.step.FindPokemonSubStep
-import com.kt.startkit.ui.features.onboarding.find_pokemon.step.Screen
+import com.kt.startkit.ui.features.onboarding.common.Step
+import com.kt.startkit.ui.features.onboarding.step.find_pokemon.FindPokemonState
+import com.kt.startkit.ui.features.onboarding.step.find_pokemon.FindPokemonViewModel
+import com.kt.startkit.ui.features.onboarding.step.find_pokemon.sub_step.FindPokemonStep
+import com.kt.startkit.ui.features.onboarding.step.find_pokemon.sub_step.Screen
 import com.kt.startkit.ui.navigator.AppNavigationRoute
 import com.kt.startkit.ui.navigator.navigate
 
-/// LIst<Step>을 when으로 분기해서 해당 스탭의 상태가 complete이 되면 onboardingstep next호출
-/// 해당 스탭의  뷰모델이 currentStep을 들고 있음. 현재스탭.subdteps[currentStep].screen 이용
 @Composable
-fun Stepper(
+fun OnBoardingStepper(
     steps: List<Step>,
     stepperViewModel: OnBoardingViewModel = hiltViewModel(),
     findPokemonViewModel: FindPokemonViewModel = hiltViewModel(),
-    // TODO 모든 viewmodel을 fetch해올 수 잇으면 좋겟는데,,
+    // TODO 모든 viewmodel을 fetch해올 수 있으면 좋겠다,,
 ) {
 
     val state by stepperViewModel.viewState.collectAsStateWithLifecycle()

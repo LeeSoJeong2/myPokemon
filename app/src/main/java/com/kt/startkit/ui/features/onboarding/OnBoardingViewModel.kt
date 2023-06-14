@@ -2,6 +2,7 @@ package com.kt.startkit.ui.features.onboarding
 
 import androidx.lifecycle.viewModelScope
 import com.kt.startkit.ui.features.onboarding.common.StepperViewModel
+import com.kt.startkit.ui.features.onboarding.step.find_pokemon.sub_step.MajorStep
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -9,11 +10,10 @@ import javax.inject.Inject
 @HiltViewModel
 class OnBoardingViewModel @Inject constructor() : StepperViewModel<OnBoardingState>(
     OnBoardingState.OnBoardingInProgress(
-        0,
-        1
+        currentStep = 0,
+        totalSteps = MajorStep.values().size
     )
-) { ///TODO totalsteps get
-
+) {
     override fun updateStep(nextIndex: Int) {
         viewModelScope.launch {
             if (nextIndex in 0 until viewState.value.totalSteps) {

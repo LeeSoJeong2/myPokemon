@@ -88,7 +88,6 @@ class LoginViewModel @Inject constructor(
                         viewState.value.inputs.copyData()
                     )
                 }
-                /// TODO ❓updateState 후에 suspend 호출 하면.. 어떻게 되지? suspend 호출 후 무시되고 종료될 수도 있나? 왜냐면 바뀐 상태 갖고 네비게이션 하면서 화면 팝할 거니까..흠...
                 usecase.setAutoLogin(viewState.value.inputs.autoLogin)
             } catch (e: Exception) {
                 updateState {

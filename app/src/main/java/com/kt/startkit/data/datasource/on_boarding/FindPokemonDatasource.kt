@@ -1,4 +1,4 @@
-package com.kt.startkit.ui.features.onboarding.find_pokemon
+package com.kt.startkit.data.datasource.on_boarding
 
 import com.kt.startkit.data.datasource.DataSource
 import dagger.hilt.android.scopes.ViewModelScoped
