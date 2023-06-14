@@ -22,10 +22,11 @@ class BerryDataSource @Inject constructor(
     }
 
     suspend fun getBerryDetail(
-        berryId: Int = 1
+        pageCount: Int,
+        berryIndexId: Int,
     ): BerryDetailModel {
         return apiService.getBerryDetail(
-            itemId = 125 + berryId
+            itemId = 125 + pageCount*10 + berryIndexId+1
         )
     }
 

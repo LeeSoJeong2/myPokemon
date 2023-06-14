@@ -11,7 +11,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.foundation.lazy.grid.itemsIndexed
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -79,9 +79,9 @@ private fun BerryContentView(
         contentPadding = PaddingValues(all = 8.dp),
 
     ) {
-        items(berryInfo.berryNames) { berry ->
+        itemsIndexed(berryInfo.berryNames) { index, berryName ->
             BerryItemView(
-                berry = berry,
+                berryName = berryName,
                 onClick = {
                     navController.navigateToBerryItem(NavigationRoute.BERRY_DETAIL.routeName)
                 }
@@ -92,7 +92,7 @@ private fun BerryContentView(
 
 @Composable
 private fun BerryItemView(
-    berry: String,
+    berryName: String,
     onClick: () -> Unit,
 ) {
     Box(
@@ -120,7 +120,7 @@ private fun BerryItemView(
 //            Spacer(modifier = Modifier.width(16.dp))
 
             Text(
-                text = berry,
+                text = berryName,
                 fontWeight = FontWeight.Bold
             )
         }

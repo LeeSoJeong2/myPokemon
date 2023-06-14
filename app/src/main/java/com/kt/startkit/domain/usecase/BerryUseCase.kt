@@ -22,14 +22,10 @@ class BerryUseCase @Inject constructor(
     }
 
     suspend fun getBerryDetail(
-        berryId: Int,
+        berryPage: Int,
+        berryIndex: Int,
     ): BerryDetail {
-        return berryDetailMapper(dataSource.getBerryDetail(berryId))
+        return berryDetailMapper(dataSource.getBerryDetail(berryPage, berryIndex))
     }
 
-//    suspend fun getItems(): List<Item> {
-//        return dataSource.get.map {
-//            berryDomainMapper(it)
-//        }
-//    }
 }

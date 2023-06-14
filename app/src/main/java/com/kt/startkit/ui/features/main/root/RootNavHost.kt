@@ -182,6 +182,15 @@ fun NavController.navigateToBerryItem(route: String) {
     this.navigate(route)
 }
 
+fun NavController.navigateToBerryDetail(
+    route: String,
+
+    index: Int,
+
+) {
+    this.navigate(route)
+}
+
 
 // Favorite
 fun NavController.navigateToFavorite(navOptions: NavOptions? = null) {
