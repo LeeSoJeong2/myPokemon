@@ -20,9 +20,10 @@ enum class NavigationRoute(val routeName: String) {
     HOME("/home/root"),
     HOME_DETAIL("/home/detail"),
 
-    SETTING_GRAPH("/setting"),
-    SETTING("/setting/root"),
-    SETTING_PROFILE_NAME("/setting/profile_name")
+//    SETTING_GRAPH("/setting"),
+//    SETTING("/setting/root"),
+//    SETTING_PROFILE_NAME("/setting/profile_name"),
+
     ;
 
     companion object {
@@ -39,7 +40,7 @@ fun RootNavHost() {
         startDestination = NavigationRoute.HOME_GRAPH.routeName,
     ) {
         homeGraph(navController = navController)
-        settingGraph(navController = navController)
+//        settingGraph(navController = navController)
     }
 }
 
@@ -84,32 +85,32 @@ fun NavGraphBuilder.homeGraph(
 }
 
 /// SettingScreen
-fun NavController.navigateToSetting(navOptions: NavOptions? = null) {
-    navigate(NavigationRoute.SETTING_GRAPH.routeName, navOptions)
-}
-
-fun NavGraphBuilder.settingGraph(
-    navController: NavController,
-) {
-    navigation(
-        route = NavigationRoute.SETTING_GRAPH.routeName,
-        startDestination = NavigationRoute.SETTING.routeName,
-    ) {
-
-        composable(route = NavigationRoute.SETTING.routeName) {
-            SettingScreen(
-                onItemClick = { route ->
-                    navController.navigateToSettingItem(route)
-                },
-            )
-        }
-        composable(route = NavigationRoute.SETTING_PROFILE_NAME.routeName) {
-            NoticeScreen(
-                onBackClick = navController::popBackStack
-            )
-        }
-    }
-}
+//fun NavController.navigateToSetting(navOptions: NavOptions? = null) {
+//    navigate(NavigationRoute.SETTING_GRAPH.routeName, navOptions)
+//}
+//
+//fun NavGraphBuilder.settingGraph(
+//    navController: NavController,
+//) {
+//    navigation(
+//        route = NavigationRoute.SETTING_GRAPH.routeName,
+//        startDestination = NavigationRoute.SETTING.routeName,
+//    ) {
+//
+//        composable(route = NavigationRoute.SETTING.routeName) {
+//            SettingScreen(
+//                onItemClick = { route ->
+//                    navController.navigateToSettingItem(route)
+//                },
+//            )
+//        }
+//        composable(route = NavigationRoute.SETTING_PROFILE_NAME.routeName) {
+//            NoticeScreen(
+//                onBackClick = navController::popBackStack
+//            )
+//        }
+//    }
+//}
 
 fun NavController.navigateToSettingItem(route: String) {
 //    val encodedId = Uri.encode(itemId)

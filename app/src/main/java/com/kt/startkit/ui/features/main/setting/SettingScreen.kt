@@ -74,7 +74,7 @@ private fun ProfileView(
             title = "이름",
             value = "우당탕탕",
             onClick = {
-                navController.navigateToSettingItem(NavigationRoute.SETTING_PROFILE_NAME.routeName)
+//                navController.navigateToSettingItem(NavigationRoute.SETTING_PROFILE_NAME.routeName)
             }
 //            onClick = {
 //                onItemClick(NavigationRoute.SETTING_PROFILE_NAME.routeName)
