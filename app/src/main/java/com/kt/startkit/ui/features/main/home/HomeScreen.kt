@@ -291,9 +291,9 @@ private fun PageButton(
     Row(
         modifier = Modifier
             .clip(RoundedCornerShape(30.dp))
+            .clickable { onClick() }
             .background(color)
-            .padding(8.dp)
-            .clickable { onClick() },
+            .padding(8.dp),
         verticalAlignment = Alignment.CenterVertically,
     ) {
         Icon(

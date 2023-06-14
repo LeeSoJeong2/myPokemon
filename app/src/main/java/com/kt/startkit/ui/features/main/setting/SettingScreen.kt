@@ -21,8 +21,6 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.Button
-import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
@@ -234,17 +232,17 @@ private fun ProfileInfoView(title: String, info: String) {
 @Composable
 private fun LogoutButton(color: Color) {
     Text(
-        "로그아웃",
+        stringResource(R.string.setting_logout_button),
         fontWeight = FontWeight.SemiBold,
         fontSize = 20.sp,
         color = Color.White,
         modifier = Modifier
-            .clip(RoundedCornerShape(15.dp))
-            .background(color.copy(alpha = 0.8f))
-            .padding(horizontal = 60.dp, vertical = 10.dp)
             .clickable {
                 // TODO
             }
+            .clip(RoundedCornerShape(15.dp))
+            .background(color.copy(alpha = 0.8f))
+            .padding(horizontal = 60.dp, vertical = 10.dp)
     )
 }
 
