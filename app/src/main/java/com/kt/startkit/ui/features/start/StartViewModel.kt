@@ -26,11 +26,6 @@ class StartViewModel @Inject constructor(
                 // 자동 로그인 여부
                 if (canAutoLogin()) {
                     updateState { StartState.NavigateToRouteScreen }
-//                    userProfileRepository.fetchProfile()
-//                    updateState {
-//                        StartScreenState.NavigateToMain
-//                    }
-//                    return@launch
                 }
                 else {
                     updateState { StartState.NeedToLogin }
