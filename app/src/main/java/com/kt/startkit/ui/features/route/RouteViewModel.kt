@@ -34,6 +34,8 @@ class RouteViewModel @Inject constructor(
     }
 
     private suspend fun showOnBoarding(): Boolean {
-        return true
+        // false 면 onboarding 안나옴
+        return false
+//        return true
     }
 }

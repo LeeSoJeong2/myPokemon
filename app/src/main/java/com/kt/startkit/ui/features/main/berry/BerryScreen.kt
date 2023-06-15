@@ -31,6 +31,7 @@ import com.kt.startkit.ui.features.main.root.navigateToBerryItem
 
 @Composable
 fun BerryScreen(
+    onBerryClick: (String) -> Unit,
     viewModel: BerryScreenViewModel = hiltViewModel(),
 ) {
     val state by viewModel.viewState.collectAsStateWithLifecycle()
@@ -39,6 +40,7 @@ fun BerryScreen(
         is BerryState.Initial -> {
             viewModel.fetchInitialData()
         }
+
         is BerryState.Loading -> {
             Box(modifier = Modifier.fillMaxSize()) {
                 CircularProgressIndicator(modifier = Modifier.align(Alignment.Center))
@@ -47,7 +49,8 @@ fun BerryScreen(
 
         is BerryState.Data -> {
             BerryContentView(
-                (state as BerryState.Data).berryInfo
+                onBerryClick = onBerryClick,
+                berryInfo = (state as BerryState.Data).berryInfo
             )
         }
 
@@ -65,11 +68,10 @@ fun BerryScreen(
 
 @Composable
 private fun BerryContentView(
+    onBerryClick: (String) -> Unit = {},
     berryInfo: BerryInfo
 ) {
     LocalViewModelStoreOwner.current
-
-    val navController = LocalNavigationProvider.current
 
     LazyVerticalGrid(
         modifier = Modifier
@@ -82,9 +84,7 @@ private fun BerryContentView(
         itemsIndexed(berryInfo.berryNames) { index, berryName ->
             BerryItemView(
                 berryName = berryName,
-                onClick = {
-                    navController.navigateToBerryItem(NavigationRoute.BERRY_DETAIL.routeName)
-                }
+                onBerryClick = onBerryClick
             )
         }
     }
@@ -92,8 +92,8 @@ private fun BerryContentView(
 
 @Composable
 private fun BerryItemView(
-    berryName: String,
-    onClick: () -> Unit,
+    onBerryClick: (String) -> Unit = {},
+    berryName: String
 ) {
     Box(
         modifier = Modifier
@@ -105,20 +105,13 @@ private fun BerryItemView(
                 width = 1.dp,
                 color = Color.Gray,
             )
-            .clickable { onClick() },
+            .clickable { onBerryClick(berryName) },
     ) {
         Row(
             modifier = Modifier
                 .padding(16.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
-//            AsyncImage(
-//                model = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/$berry-berry.png",
-//                contentDescription = null
-//            )
-//
-//            Spacer(modifier = Modifier.width(16.dp))
-
             Text(
                 text = berryName,
                 fontWeight = FontWeight.Bold

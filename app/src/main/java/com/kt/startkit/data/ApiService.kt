@@ -30,8 +30,8 @@ interface ApiService {
 
     @GET("berry")
     suspend fun getBerryInfo(
-        @Query("offset") offset: Int? = null,
-        @Query("limit") limit: Int? = null
+        @Query("offset") offset: Int,
+        @Query("limit") limit: Int
     ): BerryInfoModel
 
     @GET("item/{name}")

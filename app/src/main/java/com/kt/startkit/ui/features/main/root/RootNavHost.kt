@@ -11,6 +11,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import androidx.navigation.navigation
 import androidx.navigation.plusAssign
+import com.kt.startkit.core.logger.Logger
 import com.kt.startkit.ui.features.main.LocalNavigationProvider
 import com.kt.startkit.ui.features.main.berry.BerryScreen
 import com.kt.startkit.ui.features.main.favorite.FavoriteScreen
@@ -37,6 +38,7 @@ enum class NavigationRoute(val routeName: String) {
 
     companion object {
         const val HOME_DETAIL_NAME = "home_detail_name"
+        const val BERRY_NAME = "berry_name"
     }
 
 }
@@ -165,10 +167,22 @@ fun NavGraphBuilder.berryGraph(
         startDestination = NavigationRoute.BERRY.routeName,
     ) {
         composable(route = NavigationRoute.BERRY.routeName) {
-            BerryScreen()
+            BerryScreen(
+                onBerryClick = { name ->
+                    navController.navigate("${NavigationRoute.BERRY_DETAIL.routeName}/$name")
+                }
+            )
         }
-        composable(route = NavigationRoute.BERRY_DETAIL.routeName) {
+        composable(
+            route = "${NavigationRoute.BERRY_DETAIL.routeName}/{${NavigationRoute.BERRY_NAME}}",
+            arguments = listOf(
+                navArgument(NavigationRoute.BERRY_NAME) { type = NavType.StringType }
+            )
+        ) {
+            val name = it.arguments?.getString(NavigationRoute.BERRY_NAME)
+            Logger.d("berry detail page route : $name")
             BerryDetailScreen(
+                berryName = name,
                 onBackClick = navController::popBackStack
             )
         }

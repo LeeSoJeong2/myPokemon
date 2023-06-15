@@ -13,8 +13,8 @@ class BerryDataSource @Inject constructor(
 ) : DataSource {
 
     suspend fun getBerryInfo(
-        offset: Int? = null,
-        limit: Int? = 10,
+        offset: Int = 0,
+        limit: Int = 10,
     ): BerryInfoModel {
         return apiService.getBerryInfo(
             offset = offset,

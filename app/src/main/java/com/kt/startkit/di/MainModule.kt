@@ -1,15 +1,20 @@
 package com.kt.startkit.di
 
 import com.kt.startkit.core.datastore.PreferenceDataStore
+import com.kt.startkit.data.datasource.BerryDataSource
 import com.kt.startkit.data.datasource.PokemonDataSource
 import com.kt.startkit.domain.mapper.PokemonDetailMapper
 import com.kt.startkit.domain.mapper.PokemonInfoMapper
 import com.kt.startkit.domain.mapper.PokemonMapper
+import com.kt.startkit.domain.mapper.berry.BerryDetailMapper
+import com.kt.startkit.domain.mapper.berry.BerryInfoMapper
+import com.kt.startkit.domain.repository.BerryRepository
 import com.kt.startkit.domain.repository.PokemonRepository
 import com.kt.startkit.domain.repository.UserProfileRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.scopes.ViewModelScoped
 import dagger.hilt.components.SingletonComponent
 import kotlinx.coroutines.CoroutineDispatcher
 import javax.inject.Singleton
@@ -44,6 +49,19 @@ object MainModule {
             pokemonInfoMapper = pokemonInfoMapper,
             pokemonMapper = pokemonMapper,
             pokemonDetailMapper = pokemonDetailMapper
+        )
+    }
+
+    @Provides
+    fun provideBerryRepository(
+        dataSource: BerryDataSource,
+        berryInfoMapper: BerryInfoMapper,
+        berryDetailMapper: BerryDetailMapper,
+    ): BerryRepository {
+        return BerryRepository(
+            dataSource = dataSource,
+            berryInfoMapper = berryInfoMapper,
+            berryDetailMapper = berryDetailMapper
         )
     }
 }
