@@ -16,9 +16,9 @@ class LoginDataSource @Inject constructor(
 //
 //        )
         try {
-            Timber.d(id + "password: " + password)
+            //Logger.d(id + "password: " + password)
         } catch(e: Exception) {
-            Timber.d("checkAuth: $e")
+          // Logger.d("checkAuth: $e")
             throw e
         }
     }

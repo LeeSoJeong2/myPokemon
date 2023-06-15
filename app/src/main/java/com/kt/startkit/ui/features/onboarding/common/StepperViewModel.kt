@@ -8,6 +8,7 @@ import com.kt.startkit.core.base.StateViewModel
 
 // step 에 사용하는 ViewModel
 // step 이동을 위해 updateStep() 필수로 구현 하기
+/// TODO interface
 abstract class StepperViewModel<StepperUiState : StepperState> constructor(initialState: StepperUiState) :
     StateViewModel<StepperUiState>(initialState) {
     abstract fun updateStep(nextIndex: Int)
