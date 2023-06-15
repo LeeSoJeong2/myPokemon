@@ -5,4 +5,6 @@ abstract class SubStep {
     abstract val title: String
     abstract val onStepNext: () -> Unit
     abstract val onStepPrevious: () -> Unit
+    abstract val previousButtonText: String?
+    abstract val nextButtonText: String?
 }

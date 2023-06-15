@@ -30,6 +30,8 @@ enum class FindPokemonSubStepType {
                     onStepNext = {
                         Timber.d("stepper Intro Next")
                     },
+                    previousButtonText = "이전 단계로",
+                    nextButtonText = "시작하기",
                 )
             }
             UserProfile -> {
@@ -42,6 +44,8 @@ enum class FindPokemonSubStepType {
                     onStepNext = {
                         Timber.d("stepper userinput next")
                     },
+                    previousButtonText = "이전으로",
+                    nextButtonText = "다음으로",
                 )
             }
             TravelSite -> {
@@ -54,6 +58,8 @@ enum class FindPokemonSubStepType {
                     onStepNext = {
                         Timber.d("stepper TravelSite Next")
                     },
+                    previousButtonText = "도시",
+                    nextButtonText = "자연",
                 )
             }
             Routine -> {
@@ -66,6 +72,8 @@ enum class FindPokemonSubStepType {
                     onStepNext = {
                         Timber.d("stepper Routine Next")
                     },
+                    previousButtonText = "퇴근하기",
+                    nextButtonText = "야근하기",
                 )
             }
             Complete -> {
@@ -78,6 +86,8 @@ enum class FindPokemonSubStepType {
                     onStepNext = {
                         Timber.d("stepper Complete Next")
                     },
+                    previousButtonText = "이전으로",
+                    nextButtonText = "다음 단계로",
                 )
             }
         }
@@ -90,40 +100,49 @@ enum class FindPokemonSubStepType {
 /// step 2: 도시, 자연
 /// step 3: 집 가기, 야근하기
 /// step 4: 완료(선택한 결과 reduce -> 결과 retrofit fetch
-
 sealed class FindPokemonSubStep: SubStep() {
     data class Intro(
         override val state: StepState,
         override val title: String,
         override val onStepNext: () -> Unit,
-        override val onStepPrevious: () -> Unit
+        override val onStepPrevious: () -> Unit,
+        override val previousButtonText: String?,
+        override val nextButtonText: String?,
     ): FindPokemonSubStep()
     data class UserProfile(
         override val state: StepState,
         override val title: String,
         override val onStepNext: () -> Unit,
-        override val onStepPrevious: () -> Unit
+        override val onStepPrevious: () -> Unit,
+        override val previousButtonText: String?,
+        override val nextButtonText: String?,
     ): FindPokemonSubStep()
 
     class TravelSite(
         override val state: StepState,
         override val title: String,
         override val onStepNext: () -> Unit,
-        override val onStepPrevious: () -> Unit
+        override val onStepPrevious: () -> Unit,
+        override val previousButtonText: String?,
+        override val nextButtonText: String?,
     ): FindPokemonSubStep()
 
     class Routine(
         override val state: StepState,
         override val title: String,
         override val onStepNext: () -> Unit,
-        override val onStepPrevious: () -> Unit
+        override val onStepPrevious: () -> Unit,
+        override val previousButtonText: String?,
+        override val nextButtonText: String?,
     ): FindPokemonSubStep()
 
     class Complete(
         override val state: StepState,
         override val title: String,
         override val onStepNext: () -> Unit,
-        override val onStepPrevious: () -> Unit
+        override val onStepPrevious: () -> Unit,
+        override val previousButtonText: String?,
+        override val nextButtonText: String?,
     ): FindPokemonSubStep()
 }
 
