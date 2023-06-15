@@ -1,4 +1,4 @@
-package com.kt.startkit.ui.util
+package com.kt.startkit.util
 
 object Constants {
     const val PAGE_OFFSET = 10

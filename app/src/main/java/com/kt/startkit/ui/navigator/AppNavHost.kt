@@ -15,6 +15,7 @@ import com.kt.startkit.ui.features.main.root.RootScreen
 import com.kt.startkit.ui.features.onboarding.OnBoardingScreen
 import com.kt.startkit.ui.features.route.RouteScreen
 import com.kt.startkit.ui.features.start.StartScreen
+import okhttp3.Route
 
 
 enum class AppNavigationRoute(val routeName: String) {
@@ -23,6 +24,8 @@ enum class AppNavigationRoute(val routeName: String) {
     ROOT("/root"),
     LOGIN("/login"),
     ON_BOARDING("/on_boarding"),
+
+    ;
 }
 
 fun NavHostController.navigate(route: AppNavigationRoute, option: (NavOptionsBuilder.(NavHostController) -> Unit)? = null) {

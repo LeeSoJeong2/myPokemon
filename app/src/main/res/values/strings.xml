@@ -3,6 +3,7 @@
 
     <string name="home">home</string>
     <string name="setting">setting</string>
+    <string name="berry">berry</string>
 
 
     <string name="profile">회원정보</string>
@@ -12,6 +13,12 @@
     <string name="pokemon_detail_weight_title">Weight</string>
     <string name="pokemon_detail_ability_title">Ability</string>
     <string name="pokemon_detail_stat_title">Stat</string>
+    <string name="setting_title">설정</string>
+    <string name="setting_id_title">아이디</string>
+    <string name="setting_profile_title">프로필</string>
+    <string name="setting_profile_error_message">(알 수 없음)</string>
+    <string name="setting_logout_button">로그아웃</string>
     <string name="previous_step">이전으로</string>
     <string name="next_step">다음으로</string>
+    <string name="finish_app">\'뒤로\' 버튼을 한번 더 누르면 종료됩니다.</string>
 </resources>

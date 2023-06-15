@@ -1,5 +1,8 @@
 package com.kt.startkit.ui.features.main.root
 
+import android.os.Build
+import androidx.activity.compose.BackHandler
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -26,26 +29,35 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
+import com.kt.startkit.ui.common.AppFinishHandler
 import com.kt.startkit.ui.features.main.LocalNavigationProvider
 
-
+@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun RootScreen(
     navController: NavHostController = rememberNavController(),
-    viewModel: RootScreenViewModel = hiltViewModel(),
+    viewModel: RootViewModel = hiltViewModel(),
+    appFinishHandler: AppFinishHandler = AppFinishHandler(),
 ) {
     val state by viewModel.viewState.collectAsStateWithLifecycle()
+
+    val context = LocalContext.current
+
+    BackHandler(enabled = true){
+        appFinishHandler.onWillPop(context)
+    }
 
     when (state) {
         is RootViewState.Initial -> {
             viewModel.observeUserProfile()
         }
 
-        is RootViewState.Data -> {
+        is RootViewState.Fetched -> {
             CompositionLocalProvider(LocalNavigationProvider provides navController) {
                 RootContentView()
             }
@@ -69,11 +81,13 @@ fun RootContentView() {
 
     Scaffold(
         bottomBar = {
-            RootTabBar(
-                tabBarItems = RootTabBarItem.items(),
-                onNavigateToTab = navController::navigateToMainTap,
-                currentDestination = navController.currentDestination,
-            )
+            if (navController.isShowBottomBar()) {
+                RootTabBar(
+                    tabBarItems = RootTabBarItem.items(),
+                    onNavigateToTab = navController::navigateToMainTap,
+                    currentDestination = navController.currentDestination,
+                )
+            }
         },
     ) { padding ->
         Row(
@@ -105,7 +119,7 @@ fun RootContentView() {
                                     )
                                 }
                                 IconButton(onClick = {
-                                    // TODO: 설정 화면 으로 이동
+                                    navController.navigate(NavigationRoute.SETTING_GRAPH .routeName)
                                 } ) {
                                     Icon(
                                         imageVector = Icons.Rounded.Settings,
@@ -127,6 +141,7 @@ fun RootContentView() {
         }
     }
 }
+
 
 
 

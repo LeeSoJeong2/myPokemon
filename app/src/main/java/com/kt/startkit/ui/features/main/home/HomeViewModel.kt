@@ -5,7 +5,6 @@ import com.kt.startkit.core.base.StateViewModel
 import com.kt.startkit.core.logger.Logger
 import com.kt.startkit.domain.repository.PokemonRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
@@ -17,48 +16,53 @@ class HomeViewModel @Inject constructor(
     private val pokemonRepository: PokemonRepository
 ) : StateViewModel<HomeState>(initialState = HomeState.Initial(0)) {
 
-//    override fun setInitialState(): HomeViewState {
-//        return HomeViewState.Initial
-//    }
-
     fun observePokemonInfo() {
         viewModelScope.launch {
             pokemonRepository.pokemonInfo
                 .onEach {
                     if (it == null) {
-                        updateState { HomeState.Error(viewState.value.currentPage, "Fail to load pokemon!!") }
+                        updateState { HomeState.Error(
+                            currentPage = viewState.value.currentPage,
+                            "Fail to load pokemon!!") }
                     } else {
-                        updateState { HomeState.Data(viewState.value.currentPage, it) }
+                        updateState { HomeState.PokemonInfoFetched(
+                            currentPage = viewState.value.currentPage,
+                            pokemonInfo = it) }
                     }
                 }
                 .collect()
         }
     }
 
-
-    fun observePokemonMap(){
+    fun observePokemonList(){
         viewModelScope.launch {
             pokemonRepository.pokemon
                 .onEach {
-                    if (viewState.value is HomeState.Updated) {
-                        val updated = (viewState.value as HomeState.Updated).pokemonList.toMutableList()
-                        if (it != null) {
-                            updated.add(it)
-                            updateState { HomeState.Updated(
-                                viewState.value.currentPage,
-                                (viewState.value as HomeState.Updated).totalCount,
-                                updated
-                            ) }
+                    if (it == null) {
+                        return@onEach
+                    }
+                    // 이전 state 가 PokemonListFetched 상태 라면, 이전 list 에 새로운 pokemon 을 추가 하여 발행.
+                    if (viewState.value is HomeState.PokemonListFetched) {
+                        val pokemonListFetched = (viewState.value as HomeState.PokemonListFetched).pokemonList.toMutableList()
+
+                        pokemonListFetched.add(it)
+
+                        updateState {
+                            HomeState.PokemonListFetched(
+                                currentPage = viewState.value.currentPage,
+                                totalCount = (viewState.value as HomeState.PokemonListFetched).totalCount,
+                                pokemonList = pokemonListFetched
+                            )
                         }
                     }
-                    else if (viewState.value is HomeState.Data){
-                        if (it != null) {
-                            val updated = listOf(it)
-                            updateState { HomeState.Updated(
-                                viewState.value.currentPage,
-                                (viewState.value as HomeState.Data).pokemonInfo.count,
-                                updated
-                            )}
+                    // 이전 state 가 PokemonInfoFetched 상태 라면, 새로운 pokemon list 발행.
+                    else if (viewState.value is HomeState.PokemonInfoFetched){
+                        updateState {
+                            HomeState.PokemonListFetched(
+                                currentPage = viewState.value.currentPage,
+                                totalCount = (viewState.value as HomeState.PokemonInfoFetched).pokemonInfo.count,
+                                pokemonList = listOf(it)
+                            )
                         }
                     }
                 }
@@ -82,10 +86,19 @@ class HomeViewModel @Inject constructor(
     fun fetchPokemonInfo(page: Int) {
         viewModelScope.launch {
             updateState {
-                HomeState.Updating(page)
+                HomeState.Fetching(currentPage = page)
             }
-            pokemonRepository.fetchPokemonInfo(page = page)
+
+            try {
+                pokemonRepository.fetchPokemonInfo(page = page)
+            } catch(e: Exception) {
+                updateState {
+                    HomeState.Error(
+                        currentPage = viewState.value.currentPage,
+                        "Fail to fetch pokemon info!!"
+                    )
+                }
+            }
         }
     }
-
 }
