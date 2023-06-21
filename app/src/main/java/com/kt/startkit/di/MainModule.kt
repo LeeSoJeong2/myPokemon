@@ -8,13 +8,11 @@ import com.kt.startkit.domain.mapper.PokemonInfoMapper
 import com.kt.startkit.domain.mapper.PokemonMapper
 import com.kt.startkit.domain.mapper.berry.BerryDetailMapper
 import com.kt.startkit.domain.mapper.berry.BerryInfoMapper
-import com.kt.startkit.domain.repository.BerryRepository
 import com.kt.startkit.domain.repository.PokemonRepository
 import com.kt.startkit.domain.repository.UserProfileRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
-import dagger.hilt.android.scopes.ViewModelScoped
 import dagger.hilt.components.SingletonComponent
 import kotlinx.coroutines.CoroutineDispatcher
 import javax.inject.Singleton
@@ -52,16 +50,4 @@ object MainModule {
         )
     }
 
-    @Provides
-    fun provideBerryRepository(
-        dataSource: BerryDataSource,
-        berryInfoMapper: BerryInfoMapper,
-        berryDetailMapper: BerryDetailMapper,
-    ): BerryRepository {
-        return BerryRepository(
-            dataSource = dataSource,
-            berryInfoMapper = berryInfoMapper,
-            berryDetailMapper = berryDetailMapper
-        )
-    }
 }
